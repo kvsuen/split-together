@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+import { setCurrentUser } from './reducers/user.actions';
 
 import './App.css';
 
@@ -11,6 +13,28 @@ import RoomInvitationPage from './pages/room-invitation/room-invitation.componen
 import RoomPage from './pages/room/room.component';
 
 function App() {
+  
+  useEffect(() => {
+    let unsubscribeFromAuth = null;
+
+    unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
+
+        userRef.onSnapshot(snapShot => {
+          setCurrentUser({
+            id: snapShot.id,
+            ...snapShot.data()
+          });
+        });
+      }
+
+      setCurrentUser(userAuth);
+    });
+
+    return () => { unsubscribeFromAuth(); };
+  }, []);
+
   return (
     <Router>
       <div className="App">
@@ -20,7 +44,11 @@ function App() {
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/signup" component={SignupPage} />
             <Route exact path="/main" component={MainPage} />
-            <Route exact path="/roominvitation/:id" component={RoomInvitationPage} />
+            <Route
+              exact
+              path="/roominvitation/:id"
+              component={RoomInvitationPage}
+            />
             <Route exact path="/room/:id" component={RoomPage} />
           </Switch>
         </header>

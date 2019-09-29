@@ -17,6 +17,7 @@ const SnapPage = () => {
   const CAMERA = 'CAMERA';
   const PREVIEW = 'PREVIEW';
   const LOADING = 'LOADING';
+  const ERROR = 'ERROR';
 
   const [state, dispatch] = useReducer(reducer, {
     photo: null,
@@ -47,13 +48,16 @@ const SnapPage = () => {
       .then(resp => {
         console.log('success');
         console.log(resp.data);
-        if (resp.data.type === "REDIRECT") {
+        if (resp.data.type === 'REDIRECT') {
           dispatch({ type: SET_ROOM_ID, value: resp.data.payload });
           dispatch({ type: SET_REDIRECT_BOOLEAN, value: true });
+        } else if (resp.data.type === 'ERROR') {
+          transition(ERROR);
         }
       })
       .catch(resp => {
         console.log(resp.data);
+        transition(ERROR);
       });
   };
 
@@ -81,6 +85,13 @@ const SnapPage = () => {
       )}
 
       {mode === LOADING && <h2>DOING SOME MAGIC...</h2>}
+
+      {mode === ERROR && (
+        <div>
+          <h2>There was an error, try again!</h2>
+          <button onClick={() => transition(CAMERA)}>Take Another</button>
+        </div>
+      )}
 
       {state.redirect && <Redirect to={`/roominvitation/${state.roomId}`} />}
     </div>

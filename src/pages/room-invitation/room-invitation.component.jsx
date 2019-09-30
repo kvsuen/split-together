@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ButtonRedirect from '../../components/RedirectButton/button-redirect.component';
+import './room-invitation.style.css';
 const QRCode = require('qrcode.react');
+
+
 
 const RoomInvitationPage = () => {
 

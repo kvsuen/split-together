@@ -41,7 +41,7 @@ const SnapPage = () => {
 
     Axios({
       method: 'post',
-      url: 'http://6e87abab.ngrok.io/snap',
+      url: `${process.env.REACT_APP_API_SERVER_URL}/snap`,
       data: data,
       config: { headers: { 'Content-Type': 'multipart/form-data' } }
     })

@@ -20,3 +20,15 @@
 .App-link {
   color: #09d3ac;
 }
+
+.room-invite {
+  color: black;
+  background-color: white;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.qr-code {
+  margin-top: 3em;
+  margin-bottom: 3em;
+}

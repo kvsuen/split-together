@@ -18,13 +18,7 @@ const RoomPage = () => {
 
   const [state, dispatch] = useReducer(roomReducer, {
     billData: null,
-    cartData: [
-      {
-        qty: 1,
-        name: 'test',
-        price: 10
-      }
-    ]
+    cartData: []
   });
 
   const roomId = useParams().id;
@@ -41,9 +35,19 @@ const RoomPage = () => {
 
   const handleSwipe = id => {
     let bill = { ...state.billData[id], is_checked: true };
+    let items = [...state.cartData];
 
     if (state.billData[id].is_checked) {
       bill = { ...state.billData[id], is_checked: false };
+      
+      //JACKSON - ADDS ITEM ID TO CART
+      items.push(id)
+      dispatch({ type: SET_CART_ITEMS, value: items})
+    } else {
+
+      //JACKSON - REMOVES ITEM
+      items = items.filter(item => item !== id)
+      dispatch({ type: SET_CART_ITEMS, value: items})
     }
 
     // TODO: FIX EMIT AND ADD EMIT FOR UNCHECK
@@ -84,6 +88,9 @@ const RoomPage = () => {
         <ItemList itemsData={state.billData} handleSwipe={handleSwipe} />
       ) : (
         <h1>LOADING</h1>
+      )}
+      {state.cartData.length !== 0 && (
+        <Cart />
       )}
     </div>
   );

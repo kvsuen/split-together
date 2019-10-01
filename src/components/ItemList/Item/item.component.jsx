@@ -9,7 +9,7 @@ const Item = ({ id, is_checked, name, unit_price, handleSwipe }) => {
       <input
         type="checkbox"
         checked={is_checked}
-        onClick={() => handleSwipe(id)}
+        onChange={() => handleSwipe(id)}
       ></input>
     </div>
   );

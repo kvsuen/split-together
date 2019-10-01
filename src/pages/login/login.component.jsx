@@ -40,8 +40,12 @@ const LoginPage = ({ history }) => {
           Password
           <input name="password" type="password" placeholder="Password" />
         </label>
-        <button type="submit">Log in</button>
+        <div>
+          <button type="submit">Log in</button>
+
+        </div>
       </form>
+          <button onClick={() => signInWithGoogle()}>Google</button>
     </div>
   );
 };

@@ -119,7 +119,7 @@ const RoomPage = () => {
     <div>
       <h1>Room</h1>
       {!isNull(state.billData) ? (
-        <ItemList itemsData={state.billData} handleSwipe={handleSwipe} />
+        <ItemList itemsData={state.billData} handleSwipe={handleSwipe}/>
       ) : (
         <h1>LOADING</h1>
       )}

@@ -12,8 +12,12 @@ import io from 'socket.io-client';
 import roomReducer, {
   SET_BILL_DATA,
   SET_SELECTED,
-  SET_CART_ITEMS
+  SET_CART_ITEMS,
+  ON_ITEM_UNCHECK,
+  ON_ITEM_CHECK
 } from '../../reducers/room.reducer';
+
+const socket = io.connect(process.env.REACT_APP_API_SERVER_URL);
 
 const RoomPage = () => {
   const [state, dispatch] = useReducer(roomReducer, {
@@ -24,37 +28,26 @@ const RoomPage = () => {
   const roomId = useParams().id;
   const { currentUser } = useContext(AuthContext);
 
+  function handlePayload ({type, item_id}) {
+
+    console.log('dispatched')
+    if (type === "uncheck") {
+      dispatch({ type: ON_ITEM_UNCHECK, value: item_id });
+    } else {
+      dispatch({ type: ON_ITEM_CHECK, value: item_id });
+    }
+  }
+
   // GET INITIAL STATE FROM API SERVER
   useEffect(() => {
     Axios.get(`${process.env.REACT_APP_API_SERVER_URL}/room/${roomId}`)
       .then(resp => {
+
         dispatch({ type: SET_BILL_DATA, value: resp.data });
       })
       .catch(resp => {
         console.log(resp);
       });
-  }, [roomId]);
-
-
-  // SOCKET IO
-  const socket = io.connect(process.env.REACT_APP_API_SERVER_URL);
-  useEffect(() => {
-    const handlePayload = ({type, item_id}) => {
-      let bill = { ...state.billData[item_id], is_checked: true };
-
-      if (type === "uncheck") {
-        bill = { ...state.billData[item_id], is_checked: false };
-      } 
-  
-      const billData = {
-        ...state.billData,
-        [item_id]: bill
-      };
-
-      console.log('dispatched')
-  
-      dispatch({ type: SET_SELECTED, value: billData });
-    }
 
     // EVENT LISTENERS
     socket.on('connect', () => {
@@ -67,19 +60,18 @@ const RoomPage = () => {
 
     // TODO: HANDLE SERVER RESPONSE
     socket.on('check', payload => {
+      console.log('ON CHECK')
       handlePayload(payload);
     });
     
     socket.on('uncheck', payload => {
+      console.log('ON UNCHECK')
       handlePayload(payload);
     });
+  }, [ roomId ]);
 
-    return () => {
-      socket.close();
-    };
-  }, [socket, state]);
-
-  const handleSwipe = useCallback(id => {
+  
+  function handleSwipe(id) {
     let bill = { ...state.billData[id], is_checked: true };
     let items = [...state.cartData];
 
@@ -91,6 +83,7 @@ const RoomPage = () => {
       dispatch({ type: SET_CART_ITEMS, value: items });
 
       // EMIT UNCHECK
+      console.log('EMIT UNCHECK')
       socket.emit('uncheck', {
         item_id: id,
         user_email: currentUser.email
@@ -101,6 +94,7 @@ const RoomPage = () => {
       dispatch({ type: SET_CART_ITEMS, value: items });
 
       // EMIT CHECK
+      console.log('EMIT CHECK')
       socket.emit('check', {
         item_id: id,
         user_email: currentUser.email
@@ -113,7 +107,7 @@ const RoomPage = () => {
     };
 
     dispatch({ type: SET_SELECTED, value: billData });
-  }, [state, socket, currentUser]);
+  };
 
   return (
     <div>

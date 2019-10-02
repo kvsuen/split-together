@@ -3,7 +3,7 @@ export const SET_SELECTED = 'SET_SELECTED';
 export const SET_CART_ITEMS = 'SET_CART_ITEMS';
 export const ON_ITEM_CHECK = 'ON_ITEM_CHECK';
 export const ON_ITEM_UNCHECK = 'ON_ITEM_UNCHECK';
-
+export const SET_INITIAL_CART_ITEM = 'SET_INITIAL_CART_ITEM'
 
 const roomReducer = (state, action) => {
   switch (action.type) {
@@ -17,6 +17,12 @@ const roomReducer = (state, action) => {
         ...state,
         billData: action.value
       };
+    case SET_INITIAL_CART_ITEM:
+      console.log(action.value)
+      return {
+        ...state,
+        cartData: Object.keys(action.value)
+      }
     case SET_CART_ITEMS:
       return {
         ...state,

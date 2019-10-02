@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useContext, useCallback } from 'react';
+import React, { useEffect, useReducer, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../../firebase/auth.context';
 import { isNull } from 'util';
@@ -14,7 +14,8 @@ import roomReducer, {
   SET_SELECTED,
   SET_CART_ITEMS,
   ON_ITEM_UNCHECK,
-  ON_ITEM_CHECK
+  ON_ITEM_CHECK,
+  SET_INITIAL_CART_ITEM
 } from '../../reducers/room.reducer';
 
 const socket = io.connect(process.env.REACT_APP_API_SERVER_URL);
@@ -28,28 +29,30 @@ const RoomPage = () => {
   const roomId = useParams().id;
   const { currentUser } = useContext(AuthContext);
 
-  function handlePayload ({type, item_id}) {
-
-    console.log('dispatched')
-    if (type === "uncheck") {
-      dispatch({ type: ON_ITEM_UNCHECK, value: item_id });
-    } else {
-      dispatch({ type: ON_ITEM_CHECK, value: item_id });
-    }
-  }
-
-  // GET INITIAL STATE FROM API SERVER
   useEffect(() => {
+    // GET CART DATA FROM API SERVER
+    if (currentUser) {
+      Axios.get(`${process.env.REACT_APP_API_SERVER_URL}/users/${currentUser.uid}/room/${roomId}`)
+      .then(resp => {
+        dispatch({ type: SET_INITIAL_CART_ITEM, value: resp.data });
+      })
+      .catch(resp => {
+        console.log(resp);
+      });
+    }
+  }, [currentUser, roomId])
+
+  useEffect(() => {
+    // GET BILL DATA FROM API SERVER
     Axios.get(`${process.env.REACT_APP_API_SERVER_URL}/room/${roomId}`)
       .then(resp => {
-
         dispatch({ type: SET_BILL_DATA, value: resp.data });
       })
       .catch(resp => {
         console.log(resp);
       });
 
-    // EVENT LISTENERS
+    // SOCKET EVENT LISTENERS
     socket.on('connect', () => {
       console.log(socket.connected);
     });
@@ -58,18 +61,24 @@ const RoomPage = () => {
       console.log('disc');
     });
 
-    // TODO: HANDLE SERVER RESPONSE
     socket.on('check', payload => {
-      console.log('ON CHECK')
       handlePayload(payload);
     });
     
     socket.on('uncheck', payload => {
-      console.log('ON UNCHECK')
       handlePayload(payload);
     });
-  }, [ roomId ]);
 
+    return () => { socket.close(); };
+  }, [roomId]);
+
+  function handlePayload ({type, item_id}) {
+    if (type === "uncheck") {
+      dispatch({ type: ON_ITEM_UNCHECK, value: item_id });
+    } else {
+      dispatch({ type: ON_ITEM_CHECK, value: item_id });
+    }
+  }
   
   function handleSwipe(id) {
     let bill = { ...state.billData[id], is_checked: true };
@@ -113,7 +122,7 @@ const RoomPage = () => {
     <div>
       <h1>Room</h1>
       {!isNull(state.billData) ? (
-        <ItemList itemsData={state.billData} handleSwipe={handleSwipe}/>
+        <ItemList itemsData={state.billData} handleSwipe={handleSwipe} cartData={state.cartData}/>
       ) : (
         <h1>LOADING</h1>
       )}
@@ -124,6 +133,7 @@ const RoomPage = () => {
           <Cart cartData={state.cartData} billData={state.billData} />
         </div>
       )}
+      
     </div>
   );
 };

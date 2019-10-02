@@ -4,20 +4,25 @@ import firebase from '../../firebase/firebase.utils';
 import Axios from 'axios';
 
 const SignupPage = ({ history }) => {
-
-  const handleSignUp = useCallback(async event => {
-    event.preventDefault();
-    const { email, password } = event.target.elements;
-    try {
-      const { user } = await firebase
-        .auth()
-        .createUserWithEmailAndPassword(email.value, password.value);
-      await Axios.post(`${process.env.REACT_APP_API_SERVER_URL}/signup`, {user_email: user.email})
-      history.push("/main");
-    } catch (error) {
-      alert(error);
-    }
-  }, [history]);
+  const handleSignUp = useCallback(
+    async event => {
+      event.preventDefault();
+      const { email, password } = event.target.elements;
+      try {
+        const { user } = await firebase
+          .auth()
+          .createUserWithEmailAndPassword(email.value, password.value);
+        await Axios.post(`${process.env.REACT_APP_API_SERVER_URL}/signup`, {
+          user_email: user.email,
+          u_id: user.uid
+        });
+        history.push('/main');
+      } catch (error) {
+        alert(error);
+      }
+    },
+    [history]
+  );
 
   return (
     <div>

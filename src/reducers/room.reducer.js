@@ -1,9 +1,21 @@
 export const SET_BILL_DATA = 'SET_BILL_DATA';
-export const SET_SELECTED = 'SET_SELECTED';
+export const SET_INITIAL_CART_ITEM = 'SET_INITIAL_CART_ITEM';
+export const SET_IS_CHECKED = 'SET_IS_CHECKED';
 export const SET_CART_ITEMS = 'SET_CART_ITEMS';
 export const ON_ITEM_CHECK = 'ON_ITEM_CHECK';
 export const ON_ITEM_UNCHECK = 'ON_ITEM_UNCHECK';
-export const SET_INITIAL_CART_ITEM = 'SET_INITIAL_CART_ITEM'
+
+// This function is to merge existing state with the updated state item
+// Otherwise we would be replacing state with just the updated state item
+// without the previous state
+const updateBillState = (state, id, bool) => {
+  let itemToUpdate = { ...state.billData[id], is_checked: bool }
+
+  return {
+    ...state.billData,
+    [id]: itemToUpdate
+  }
+}
 
 const roomReducer = (state, action) => {
   switch (action.type) {
@@ -12,49 +24,49 @@ const roomReducer = (state, action) => {
         ...state,
         billData: action.value
       };
-    case SET_SELECTED:
-      return {
-        ...state,
-        billData: action.value
-      };
+      
     case SET_INITIAL_CART_ITEM:
-      console.log(action.value)
+      const ids = Object.keys(action.value);
+      const idsAsNumber = ids.map(id => Number(id))
       return {
         ...state,
-        cartData: Object.keys(action.value)
-      }
-    case SET_CART_ITEMS:
-      return {
-        ...state,
-        cartData: action.value
+        cartData: idsAsNumber
       };
-    case ON_ITEM_UNCHECK:
-      if (!state.billData) return state; 
-      const bill = { ...state.billData[action.value], is_checked: false };
 
-      const billData = {
-        ...state.billData,
-        [action.value]: bill
-      };
+    case SET_IS_CHECKED:
+      let billData = updateBillState(state, action.value, true);
+
+      if (state.billData[action.value].is_checked) {
+        billData = updateBillState(state, action.value, false);
+      } 
 
       return {
         ...state,
         billData: billData
       };
-    case ON_ITEM_CHECK:
-      if (!state.billData) return state; 
-      const bill2 = { ...state.billData[action.value], is_checked: true };
-  
-      const billData2 = {
-        ...state.billData,
-        [action.value]: bill2
-      };
 
+    case SET_CART_ITEMS:
       return {
         ...state,
-        billData: billData2
+        cartData: action.value
       };
-      
+
+    case ON_ITEM_CHECK:
+      if (!state.billData) return state;
+      const checkBillData = updateBillState(state, action.value, true);
+      return {
+        ...state,
+        billData: checkBillData
+      };
+
+    case ON_ITEM_UNCHECK:
+      if (!state.billData) return state;
+      const uncheckBillData = updateBillState(state, action.value, false);
+      return {
+        ...state,
+        billData: uncheckBillData
+      };
+
     default:
       throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`

@@ -11,11 +11,11 @@ import io from 'socket.io-client';
 
 import roomReducer, {
   SET_BILL_DATA,
-  SET_SELECTED,
+  SET_INITIAL_CART_ITEM,
+  SET_IS_CHECKED,
   SET_CART_ITEMS,
   ON_ITEM_UNCHECK,
-  ON_ITEM_CHECK,
-  SET_INITIAL_CART_ITEM
+  ON_ITEM_CHECK
 } from '../../reducers/room.reducer';
 
 const socket = io.connect(process.env.REACT_APP_API_SERVER_URL);
@@ -81,18 +81,14 @@ const RoomPage = () => {
   }
   
   function handleSwipe(id) {
-    let bill = { ...state.billData[id], is_checked: true };
     let items = [...state.cartData];
 
     if (state.billData[id].is_checked) {
-      bill = { ...state.billData[id], is_checked: false };
-
       // REMOVES ITEM FROM CART
       items = items.filter(item => item !== id);
       dispatch({ type: SET_CART_ITEMS, value: items });
 
       // EMIT UNCHECK
-      console.log('EMIT UNCHECK')
       socket.emit('uncheck', {
         item_id: id,
         user_email: currentUser.email
@@ -103,19 +99,13 @@ const RoomPage = () => {
       dispatch({ type: SET_CART_ITEMS, value: items });
 
       // EMIT CHECK
-      console.log('EMIT CHECK')
       socket.emit('check', {
         item_id: id,
         user_email: currentUser.email
       });
     }
 
-    const billData = {
-      ...state.billData,
-      [id]: bill
-    };
-
-    dispatch({ type: SET_SELECTED, value: billData });
+    dispatch({ type: SET_IS_CHECKED, value: id });
   };
 
   return (
@@ -133,6 +123,7 @@ const RoomPage = () => {
           <Cart cartData={state.cartData} billData={state.billData} />
         </div>
       )}
+
       
     </div>
   );

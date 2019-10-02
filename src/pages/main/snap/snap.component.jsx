@@ -1,7 +1,9 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import Camera, { IMAGE_TYPES } from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
+
+import { AuthContext } from '../../../firebase/auth.context';
 
 import Axios from 'axios';
 
@@ -27,6 +29,8 @@ const SnapPage = () => {
 
   const { mode, transition } = useVisualMode(CAMERA);
 
+  const { currentUser } = useContext(AuthContext);
+
   const onTakePhoto = dataUri => {
     dispatch({ type: SET_PHOTO, value: dataUri });
     transition(PREVIEW);
@@ -36,6 +40,7 @@ const SnapPage = () => {
     const base64Image = state.photo.split(',');
     const data = new FormData();
     data.append('image_data', base64Image[1]);
+    data.append('u_id', currentUser.uid)
 
     transition(LOADING);
 

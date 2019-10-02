@@ -1,10 +1,11 @@
 import React, { useEffect, useReducer, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 import { AuthContext } from '../../firebase/auth.context';
 import { isNull } from 'util';
 
 import ItemList from '../../components/ItemList/item-list.component';
 import Cart from '../../components/Cart/cart.component';
+import Button from '../../components/Button/button.component';
 
 import Axios from 'axios';
 import io from 'socket.io-client';
@@ -12,10 +13,12 @@ import io from 'socket.io-client';
 import roomReducer, {
   SET_BILL_DATA,
   SET_INITIAL_CART_ITEM,
-  SET_IS_CHECKED,
+  SET_ITEM_CHECKED,
+  SET_ITEM_UNCHECKED,
   SET_CART_ITEMS,
   ON_ITEM_UNCHECK,
-  ON_ITEM_CHECK
+  ON_ITEM_CHECK,
+  ON_REDIRECT
 } from '../../reducers/room.reducer';
 
 const socket = io.connect(process.env.REACT_APP_API_SERVER_URL);
@@ -23,7 +26,9 @@ const socket = io.connect(process.env.REACT_APP_API_SERVER_URL);
 const RoomPage = () => {
   const [state, dispatch] = useReducer(roomReducer, {
     billData: null,
-    cartData: []
+    cartData: [],
+    hostId: null,
+    redirect: false
   });
 
   const roomId = useParams().id;
@@ -32,15 +37,17 @@ const RoomPage = () => {
   useEffect(() => {
     // GET CART DATA FROM API SERVER
     if (currentUser) {
-      Axios.get(`${process.env.REACT_APP_API_SERVER_URL}/users/${currentUser.uid}/room/${roomId}`)
-      .then(resp => {
-        dispatch({ type: SET_INITIAL_CART_ITEM, value: resp.data });
-      })
-      .catch(resp => {
-        console.log(resp);
-      });
+      Axios.get(
+        `${process.env.REACT_APP_API_SERVER_URL}/users/${currentUser.uid}/room/${roomId}`
+      )
+        .then(resp => {
+          dispatch({ type: SET_INITIAL_CART_ITEM, value: resp.data });
+        })
+        .catch(resp => {
+          console.log(resp);
+        });
     }
-  }, [currentUser, roomId])
+  }, [currentUser, roomId]);
 
   useEffect(() => {
     // GET BILL DATA FROM API SERVER
@@ -64,26 +71,35 @@ const RoomPage = () => {
     socket.on('check', payload => {
       handlePayload(payload);
     });
-    
+
     socket.on('uncheck', payload => {
       handlePayload(payload);
     });
 
-    return () => { socket.close(); };
+    socket.on('redirect', payload => {
+      handlePayload(payload);
+    });
+
+    return () => {
+      socket.close();
+    };
   }, [roomId]);
 
-  function handlePayload ({type, item_id}) {
-    if (type === "uncheck") {
+  function handlePayload({ type, item_id }) {
+    if (type === 'uncheck') {
       dispatch({ type: ON_ITEM_UNCHECK, value: item_id });
-    } else {
+    } else if (type === 'check') {
       dispatch({ type: ON_ITEM_CHECK, value: item_id });
+    } else if (type === 'redirect') {
+      dispatch({ type: ON_REDIRECT, value: item_id });
     }
   }
-  
+
   function handleSwipe(id) {
     let items = [...state.cartData];
 
     if (state.billData[id].is_checked) {
+      dispatch({ type: SET_ITEM_UNCHECKED, value: id });
       // REMOVES ITEM FROM CART
       items = items.filter(item => item !== id);
       dispatch({ type: SET_CART_ITEMS, value: items });
@@ -95,6 +111,7 @@ const RoomPage = () => {
       });
     } else {
       // ADDS ITEM ID TO CART
+      dispatch({ type: SET_ITEM_CHECKED, value: id });
       items.push(id);
       dispatch({ type: SET_CART_ITEMS, value: items });
 
@@ -105,14 +122,32 @@ const RoomPage = () => {
       });
     }
 
-    dispatch({ type: SET_IS_CHECKED, value: id });
+  }
+
+  const isComplete = () => {
+    let keys = [];
+    let uncheckedItems = [];
+
+    if (state.billData && currentUser.uid === state.hostId) {
+      keys = Object.keys(state.billData);
+      uncheckedItems = keys.filter(
+        key => state.billData[key].is_checked === false
+      );
+      return uncheckedItems.length === 0;
+    }
+
+    return false;
   };
 
   return (
     <div>
       <h1>Room</h1>
       {!isNull(state.billData) ? (
-        <ItemList itemsData={state.billData} handleSwipe={handleSwipe} cartData={state.cartData}/>
+        <ItemList
+          itemsData={state.billData}
+          handleSwipe={handleSwipe}
+          cartData={state.cartData}
+        />
       ) : (
         <h1>LOADING</h1>
       )}
@@ -124,7 +159,9 @@ const RoomPage = () => {
         </div>
       )}
 
-      
+      {isComplete() && <Button>See Summary</Button>}
+
+      {state.redirect && <Redirect to={'/main'} />}
     </div>
   );
 };

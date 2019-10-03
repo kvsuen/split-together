@@ -32,36 +32,6 @@
   padding-bottom: 100%;
 }
 
-.footer {
-  position: absolute;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  bottom: 0px;
-  width: 100vw;
-  height: 14vh;
-  box-shadow: -1px -1px 5px 2px rgb(0, 0, 0, 0.4);
-}
-
-.footer__logo {
-  width: 9vw;
-}
-
-.footer_logo:after {
-  content: "";
-  display: block;
-  padding-bottom: 100%
-}
-
-.footer__logo--left {
-  padding-left: 7vw;
-}
-
-.footer__logo--right {
-  padding-right: 7vw;
-}
-
 .error {
   display: flex;
   position: absolute;

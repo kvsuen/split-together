@@ -6,10 +6,8 @@ import Camera, { IMAGE_TYPES } from 'react-html5-camera-photo';
 
 import './react-camera.css';
 import './snap.style.css';
-import userLogo from './icons/analysis.png';
-import enterLogo from './icons/receipt.png';
-import rightArrow from './icons/right_arrow.png';
-import leftArrow from './icons/left_arrow.png';
+import rightArrow from '../icons/right_arrow.png';
+import leftArrow from '../icons/left_arrow.png';
 
 import reducer, {
   SET_PHOTO,
@@ -22,7 +20,7 @@ import useVisualMode from '../../../hooks/useVisualMode';
 
 import Axios from 'axios';
 
-const SnapPage = ({ toggleSwipe, setPageTo }) => {
+const SnapPage = ({ toggleSwipe }) => {
   const CAMERA = 'CAMERA';
   const PREVIEW = 'PREVIEW';
   const LOADING = 'LOADING';
@@ -98,20 +96,6 @@ const SnapPage = ({ toggleSwipe, setPageTo }) => {
             imageType={IMAGE_TYPES.JPG}
             isDisplayStartCameraError={false}
           />
-          <footer className={'footer'}>
-            <img
-              className={'footer__logo footer__logo--left'}
-              src={userLogo}
-              alt="Profile Dashboard"
-              onClick={() => setPageTo(0)}
-            />
-            <img
-              className={'footer__logo footer__logo--right'}
-              src={enterLogo}
-              alt="Split Bill"
-              onClick={() => setPageTo(2)}
-            />
-          </footer>
         </div>
       )}
 
@@ -126,14 +110,9 @@ const SnapPage = ({ toggleSwipe, setPageTo }) => {
             />
           </header>
           <img className={'camera__preview'} src={state.photo} alt="Preview" />
-          <div id="container-circles" onClick={() => sendImage()}>
-            <div id="outer-circle">
-              <div id="inner-circle" className={'blue'}>
-                <img src={rightArrow} alt="Send" />
-              </div>
+            <div id="send_button" onClick={() => sendImage()}>
+              <img src={rightArrow} alt="Send" />
             </div>
-          </div>
-          <footer className={'footer'}></footer>
         </div>
       )}
 

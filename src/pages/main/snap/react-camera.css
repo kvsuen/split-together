@@ -1,7 +1,7 @@
 #container-circles {
   position: absolute;
   left: 50%;
-  bottom: 90px
+  bottom: 190px
 }
 
 #outer-circle {
@@ -27,12 +27,21 @@
   z-index: 2
 }
 
-#inner-circle.blue {
+#send_button {
+  position: absolute;
+  border-radius: 50%;
+  left: 88%;
+  bottom: 30px;
+  height: 50px;
+  width: 50px;
+  background: #fff;
+  margin: -25px 0 0 -25px;
+  z-index: 2;
   background-color: #3963C7;
   box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.6);
 }
 
-#inner-circle.blue img {
+#send_button img {
   margin-top: 10px;
   height: 30px;
   width: 30px;

@@ -1,11 +1,14 @@
 import React, { useReducer, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import Camera, { IMAGE_TYPES } from 'react-html5-camera-photo';
-import 'react-html5-camera-photo/build/css/index.css';
-
 import { AuthContext } from '../../../firebase/auth.context';
+import Camera, { IMAGE_TYPES } from 'react-html5-camera-photo';
 
-import Axios from 'axios';
+import './react-camera.css';
+import './snap.style.css';
+import userLogo from './icons/analysis.png';
+import enterLogo from './icons/receipt.png';
+import rightArrow from './icons/right_arrow.png';
+import leftArrow from './icons/left_arrow.png';
 
 import reducer, {
   SET_PHOTO,
@@ -15,7 +18,9 @@ import reducer, {
 
 import useVisualMode from '../../../hooks/useVisualMode';
 
-const SnapPage = () => {
+import Axios from 'axios';
+
+const SnapPage = ({ toggleSwipe, setPageTo }) => {
   const CAMERA = 'CAMERA';
   const PREVIEW = 'PREVIEW';
   const LOADING = 'LOADING';
@@ -34,13 +39,14 @@ const SnapPage = () => {
   const onTakePhoto = dataUri => {
     dispatch({ type: SET_PHOTO, value: dataUri });
     transition(PREVIEW);
+    toggleSwipe();
   };
 
   const sendImage = () => {
     const base64Image = state.photo.split(',');
     const data = new FormData();
     data.append('image_data', base64Image[1]);
-    data.append('u_id', currentUser.uid)
+    data.append('u_id', currentUser.uid);
 
     transition(LOADING);
 
@@ -66,35 +72,76 @@ const SnapPage = () => {
       });
   };
 
+  const takeAnother = () => {
+    toggleSwipe();
+    transition(CAMERA);
+  };
+
   return (
-    <div>
-      <h1>Snap Page</h1>
-
+    <div className={'camera'}>
       {mode === CAMERA && (
-        <Camera
-          onTakePhoto={dataUri => {
-            onTakePhoto(dataUri);
-          }}
-          idealFacingMode="environment"
-          isImageMirror={false}
-          imageType={IMAGE_TYPES.JPG}
-        />
-      )}
-
-      {mode === PREVIEW && (
         <div>
-          <img src={state.photo} alt="Preview" />
-          <button onClick={() => transition(CAMERA)}>Take Another</button>
-          <button onClick={() => sendImage()}>Send</button>
+          {mode === ERROR && (
+            <div className={"error"}>
+              <h2>Something went wrong, please try again.</h2>
+            </div>
+          )}
+          <Camera
+            onTakePhoto={dataUri => {
+              onTakePhoto(dataUri);
+            }}
+            idealFacingMode="environment"
+            isImageMirror={false}
+            imageType={IMAGE_TYPES.JPG}
+            isDisplayStartCameraError={false}
+          />
+          <footer className={'footer'}>
+            <img
+              className={'footer__logo footer__logo--left'}
+              src={userLogo}
+              alt="Profile Dashboard"
+              onClick={() => setPageTo(0)}
+            />
+            <img
+              className={'footer__logo footer__logo--right'}
+              src={enterLogo}
+              alt="Split Bill"
+              onClick={() => setPageTo(2)}
+            />
+          </footer>
         </div>
       )}
 
-      {mode === LOADING && <h2>DOING SOME MAGIC...</h2>}
+      {mode === PREVIEW && (
+        <div className={'react-html5-camera-photo '}>
+          <header className={'header'}>
+            <img
+              className={'header__take_another'}
+              src={leftArrow}
+              alt="Take Another"
+              onClick={() => takeAnother()}
+            />
+          </header>
+          <img className={'camera__preview'} src={state.photo} alt="Preview" />
+          <div id="container-circles" onClick={() => sendImage()}>
+            <div id="outer-circle">
+              <div id="inner-circle" className={'blue'}>
+                <img src={rightArrow} alt="Send" />
+              </div>
+            </div>
+          </div>
+          <footer className={'footer'}></footer>
+        </div>
+      )}
 
-      {mode === ERROR && (
-        <div>
-          <h2>There was an error, try again!</h2>
-          <button onClick={() => transition(CAMERA)}>Take Another</button>
+      {mode === LOADING && (
+        <div className={'loading_screen'}>
+          <div
+            className={
+              'loading_screen__spinner loading_screen__spinner--circle'
+            }
+          ></div>
+          <h5 className={'loading_screen__text'}>Image Recognition Magic</h5>
         </div>
       )}
 

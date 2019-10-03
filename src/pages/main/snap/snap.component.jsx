@@ -66,6 +66,7 @@ const SnapPage = ({ toggleSwipe, setPageTo }) => {
           dispatch({ type: SET_REDIRECT_BOOLEAN, value: true });
         } else if (resp.data.type === 'ERROR') {
           transition(CAMERA);
+          toggleSwipe();
           dispatch({ type: TOGGLE_ERROR, value: true })
           setTimeout(dispatch({ type: TOGGLE_ERROR, value: false }), 2500)
         }
@@ -73,6 +74,7 @@ const SnapPage = ({ toggleSwipe, setPageTo }) => {
       .catch(resp => {
         console.log(resp.data);
         transition(CAMERA);
+        toggleSwipe();
         dispatch({ type: TOGGLE_ERROR, value: true })
         setTimeout(dispatch({ type: TOGGLE_ERROR, value: false }), 2500)
       });

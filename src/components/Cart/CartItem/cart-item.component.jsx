@@ -1,11 +1,18 @@
 import React from 'react';
+import './cart-item.style.css'
 
-const CartItem = ({ id, name, unit_price }) => {
+const CartItem = ({ id, name, unit_price, handleSwipe }) => {
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <h4>
-        name: {name}, price: {unit_price}
-      </h4>
+    <div className='cart__item'>
+      <div className='cart__item__name'>
+        {name}
+      </div>
+      <div className='cart__item__price'>
+        {unit_price}
+      </div>
+      <div className='cart__item--remove' onClick={() => handleSwipe(id)}>
+        x
+      </div>
     </div>
   );
 };

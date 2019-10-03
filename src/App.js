@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { AuthProvider } from './firebase/auth.context';
-import PrivateRoute from './firebase/PrivateRoute.component';
+import PrivateRoute from './firebase/private-route.component';
 
 import HomePage from './pages/home/homepage.component';
 import MainPage from './pages/main/main.component';

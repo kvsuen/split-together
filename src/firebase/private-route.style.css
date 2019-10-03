@@ -1,0 +1,47 @@
+/* Spinner Circle Rotation */
+
+.loading_screen {
+  display: flex;
+  min-height: 100vh;
+  max-height: 100vh;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.loading_screen__spinner {
+  width: 32px;
+  height: 32px;
+  clear: both;
+  margin: 20px auto;
+}
+
+.loading_screen__text {
+  margin: 0;
+}
+
+.loading_screen__spinner--circle {
+  border: 4px rgba(0, 0, 0, 0.25) solid;
+  border-top: 4px black solid;
+  border-radius: 50%;
+  -webkit-animation: spCircRot .6s infinite linear;
+  animation: spCircRot .6s infinite linear;
+}
+
+@-webkit-keyframes spCircRot {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+  }
+}
+@keyframes spCircRot {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}

@@ -44,4 +44,13 @@
   height: 190px !important;
 }
 
-
+.redirect {
+  background-color: #ACE894;
+  border: none;
+  padding: 1em; 
+  color: white;
+  font-weight: bold;
+  width: 75vw;
+  border-radius: 4px;
+  box-shadow: rgba(0,0,0,.2) 0px 2px 5px 3px;
+}

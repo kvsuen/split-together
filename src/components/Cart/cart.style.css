@@ -3,11 +3,10 @@
   border-bottom: 1px solid	#D8D8D8;
   min-height: 1px;
   min-width: 75vw;
-  max-width: 75vw;
+  max-width: 80vw;
   margin: auto;
   margin-top: 3vh;
   margin-bottom: 3vh;
-
 }
 
 .subtotal {
@@ -18,9 +17,22 @@
   justify-content: space-between;
 }
 
+.total {
+  margin-bottom: 2vh;
+  margin-left: 8vw;
+  margin-right: 10vw;
+  display: flex;
+  justify-content: space-between;
+  padding: 3vw;
+  background-color: #613DC1;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
 .cart__footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  margin-bottom: 10vh;
+  margin-bottom: 5vh;
 }

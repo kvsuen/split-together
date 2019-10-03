@@ -19,23 +19,29 @@ const Cart = ({ cartData, billData, handleSwipe }) => {
   });
   return (
     <div>
-      <div>
+      {cartData.length > 0 ? 
+      (<div>
         {itemIds}
       </div>
+      ) : (
+      <div className="subtotal">
+        No items selected!
+      </div>
+      )}
       <div className="cart__footer"> 
         <div className="linebreak">
           <br></br>
         </div>
         <div className="subtotal">
-          Subtotal: 
-          <div>{x}</div>
+          SUBTOTAL: 
+          <div>{x.toFixed(2)}</div>
         </div>
         <div className="subtotal">
-          Tax:
+          TAX:
           <div>{(x * .13).toFixed(2)}</div>
         </div>
-        <div className="subtotal">
-          Total:
+        <div className="total">
+          TOTAL:
           <div>{x + Number((x * .13).toFixed(2))}</div>
         </div>
       </div>

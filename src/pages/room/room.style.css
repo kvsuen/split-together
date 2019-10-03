@@ -3,6 +3,10 @@
   font-size: 3em; 
 }
 
+.body h2 {
+  margin-left: 5vw;
+}
+
 .body--cartOpen {
   position: fixed;
   /* display: none; */
@@ -20,7 +24,7 @@
 .cart__button {
   display: flex;
   justify-content: center;
-  min-height: 10vh;
+  min-height: 9vh;
   align-items: center;
   width: 100vw;
   position: absolute;
@@ -28,8 +32,17 @@
   bottom: 0;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
-  box-shadow: rgba(0,0,0,.2) -1px -1px 5px;
+  box-shadow: rgba(168, 133, 133, 0.2) -1px -1px 5px;
+  background-color: #613DC1;
+  color: white;
+  font-weight: bold;
 }
+
+/* .cart__button--withItems {
+  background-color: #613DC1;
+  color: white;
+  font-weight: bold;
+} */
 
 .cart {
   position: absolute;
@@ -40,7 +53,8 @@
   background-color: white;
   color: black;
   width: 100vw;
-  min-height: 70vh;
+  min-height: 40vh;
+  max-height: 70vh;
   overflow: scroll;
   padding-top: 5vh;
 }
@@ -48,4 +62,15 @@
 .cart__item--remove {
   color: #C0C0C0;
   margin-right: 10vw;
+}
+
+.redirectWrap .redirect {
+  margin-left: 5vw;
+  width: 90vw;
+  margin-bottom: 0vh;
+}
+
+.room-invite {
+  min-height: 100vh;
+  max-height: 100vh;
 }

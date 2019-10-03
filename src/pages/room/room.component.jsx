@@ -5,7 +5,6 @@ import { isNull } from 'util';
 
 import ItemList from '../../components/ItemList/item-list.component';
 import Cart from '../../components/Cart/cart.component';
-import Button from '../../components/Button/button.component';
 
 import Axios from 'axios';
 import io from 'socket.io-client';
@@ -24,6 +23,7 @@ import roomReducer, {
   ON_ITEM_CHECK,
   ON_REDIRECT
 } from '../../reducers/room.reducer';
+import ButtonRedirect from '../../components/RedirectButton/button-redirect.component';
 
 const socket = io.connect(process.env.REACT_APP_API_SERVER_URL);
 
@@ -157,7 +157,6 @@ const RoomPage = () => {
 
   const isCompleteNotHost = () => {
     if (!isNull(state.billData) && !state.isHost) {
-      // const keys = Object.keys(state.billData);
       const arrObj = Object.values(state.billData)  
       return arrObj.every(obj => {
         return obj['is_checked']
@@ -165,17 +164,34 @@ const RoomPage = () => {
     }
     return false
   };
-  // console.log(isCompleteNotHost())
+
+  const lengthLogic = () => {
+    if (!isNull(state.billData) && state.cartData.length >= 0) {
+      let keys = []
+      let uncheckedItems = []
+      
+      keys = Object.keys(state.billData);
+      uncheckedItems = keys.filter(
+        key => state.billData[key].is_checked === false
+      );
+      return uncheckedItems.length !== 0;
+    }
+    return false;
+  }
 
   return (
     <>
     <div className={bodyClass} onClick={() => toggleButtonStatus()}></div>
     <div className="body">
       <h1>Room {roomId}</h1>
-      {state.cartData.length === 0 && <h2>Please Select Item(s)</h2>}
-      {isCompleteNotHost() && <h2>Waiting On Others</h2>}
-
-      {/* { && <h2>Waiting On Host</h2>} */}
+      {isComplete() && 
+        <div className='redirectWrap'>
+          <ButtonRedirect route={`/room/${roomId}/summary`}>
+            See Summary
+          </ButtonRedirect>
+        </div>}
+      {lengthLogic() && <h2>Please Select Item(s)</h2>}
+      {isCompleteNotHost() && <h2>Waiting On Host</h2>}
       {!isNull(state.billData) ? (
         <ItemList
           itemsData={state.billData}
@@ -185,11 +201,9 @@ const RoomPage = () => {
       ) : (
         <h1>LOADING</h1>
       )}
-
-      {isComplete() && <Button>See Summary</Button>}
       
       <div className='cart__button' onClick={() => toggleButtonStatus()}>
-        CART {state.cartData.length}
+        SELECTED {state.cartData.length}
       </div>
 
       {btnStatus && (

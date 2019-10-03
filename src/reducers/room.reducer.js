@@ -3,6 +3,7 @@ export const SET_INITIAL_CART_ITEM = 'SET_INITIAL_CART_ITEM';
 export const SET_ITEM_CHECKED = 'SET_ITEM_CHECKED';
 export const SET_ITEM_UNCHECKED = 'SET_ITEM_UNCHECKED';
 export const SET_CART_ITEMS = 'SET_CART_ITEMS';
+export const SET_IS_HOST = 'SET_IS_HOST';
 export const ADD_CART_ITEM = 'ADD_CART_ITEM';
 export const REMOVE_CART_ITEM = 'REMOVE_CART_ITEM';
 export const ON_ITEM_CHECK = 'ON_ITEM_CHECK';
@@ -55,6 +56,13 @@ const roomReducer = (state, action) => {
         ...state,
         cartData: action.value
       };
+  
+    case SET_IS_HOST:
+        const res = action.value === state.hostId
+        return {
+          ...state,
+          isHost: res
+        };
 
     case ADD_CART_ITEM:
       return {

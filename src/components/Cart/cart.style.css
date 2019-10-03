@@ -1,0 +1,26 @@
+
+.linebreak {
+  border-bottom: 1px solid	#D8D8D8;
+  min-height: 1px;
+  min-width: 75vw;
+  max-width: 75vw;
+  margin: auto;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+
+}
+
+.subtotal {
+  margin-bottom: 2vh;
+  margin-left: 10vw;
+  margin-right: 12vw;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cart__footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin-bottom: 10vh;
+}

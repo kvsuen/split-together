@@ -45,23 +45,7 @@
   padding-top: 5vh;
 }
 
-.cart__item {
-  /* display: flex;
-  justify-content: center; */
-  /* align-items: center; */
-  /* border: 3px solid red; */
-}
-
-.cart__item h4 {
-  display: flex;
-  /* justify-content: space-between; */
-  width: 100%;
-}
-
-.linebreak {
-  border-bottom: 1px solid	#D8D8D8;
-  min-height:1px;
-  min-width: 75vw;
-  max-width: 75vw;
-  margin: auto;
+.cart__item--remove {
+  color: #C0C0C0;
+  margin-right: 10vw;
 }

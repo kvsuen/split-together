@@ -19,6 +19,7 @@ import roomReducer, {
   SET_ITEM_CHECKED,
   SET_ITEM_UNCHECKED,
   SET_CART_ITEMS,
+  SET_IS_HOST,
   ON_ITEM_UNCHECK,
   ON_ITEM_CHECK,
   ON_REDIRECT
@@ -31,11 +32,12 @@ const RoomPage = () => {
     billData: null,
     cartData: [],
     hostId: null,
-    redirect: false
+    redirect: false,
+    isHost: null
   });
 
   const [btnStatus, setStatus] = useState(false);
-
+  
   const roomId = useParams().id;
   const { currentUser } = useContext(AuthContext);
 
@@ -47,6 +49,7 @@ const RoomPage = () => {
       )
         .then(resp => {
           dispatch({ type: SET_INITIAL_CART_ITEM, value: resp.data });
+          dispatch({ type: SET_IS_HOST, value: currentUser.uid })
         })
         .catch(resp => {
           console.log(resp);
@@ -133,7 +136,7 @@ const RoomPage = () => {
     let keys = [];
     let uncheckedItems = [];
 
-    if (state.billData && currentUser.uid === state.hostId) {
+    if (state.billData && state.isHost) {
       keys = Object.keys(state.billData);
       uncheckedItems = keys.filter(
         key => state.billData[key].is_checked === false
@@ -152,11 +155,27 @@ const RoomPage = () => {
     "body--cartOpen": btnStatus 
   });
 
+  const isCompleteNotHost = () => {
+    if (!isNull(state.billData) && !state.isHost) {
+      // const keys = Object.keys(state.billData);
+      const arrObj = Object.values(state.billData)  
+      return arrObj.every(obj => {
+        return obj['is_checked']
+      })
+    }
+    return false
+  };
+  // console.log(isCompleteNotHost())
+
   return (
     <>
     <div className={bodyClass} onClick={() => toggleButtonStatus()}></div>
     <div className="body">
       <h1>Room {roomId}</h1>
+      {state.cartData.length === 0 && <h2>Please Select Item(s)</h2>}
+      {isCompleteNotHost() && <h2>Waiting On Others</h2>}
+
+      {/* { && <h2>Waiting On Host</h2>} */}
       {!isNull(state.billData) ? (
         <ItemList
           itemsData={state.billData}
@@ -169,13 +188,17 @@ const RoomPage = () => {
 
       {isComplete() && <Button>See Summary</Button>}
       
-      <div className='cart__button'onClick={() => toggleButtonStatus()}>
+      <div className='cart__button' onClick={() => toggleButtonStatus()}>
         CART {state.cartData.length}
       </div>
 
       {btnStatus && (
         <div className='cart'>
-          <Cart cartData={state.cartData} billData={state.billData} />
+          <Cart 
+            cartData={state.cartData} 
+            billData={state.billData}
+            handleSwipe={handleSwipe} 
+          />
         </div>
       )}
 

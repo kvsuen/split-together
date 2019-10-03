@@ -1,0 +1,36 @@
+.item {
+  width: 90vw;
+  margin-top: 3vh;
+  margin-bottom: 1vh;
+  margin-right: 5vw;
+  margin-left: 5vw;
+  border-radius: 2.5px;
+  box-shadow: rgba(0,0,0,.1) 0px 2px 5px 3px;
+}
+
+.item h4 {
+  display: flex;
+  width: 100%;
+}
+
+.item--checked {
+  color: #ACE894;
+  box-shadow: rgba(172,232,148,.4) 0px 2px 5px 3px;
+}
+
+.item--taken {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: 	#C0C0C0;
+  box-shadow: rgba(0,0,0,.1) 0px 2px 5px 3px;
+}
+
+.room__item__name {
+  margin-left: 5vw;
+}
+
+.room__item__price {
+  margin-right: 5vw;
+  margin-inline-start: auto;
+}

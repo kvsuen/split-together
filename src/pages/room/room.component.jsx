@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useContext } from 'react';
+import React, { useEffect, useReducer, useContext, useState } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
 import { AuthContext } from '../../firebase/auth.context';
 import { isNull } from 'util';
@@ -9,6 +9,9 @@ import Button from '../../components/Button/button.component';
 
 import Axios from 'axios';
 import io from 'socket.io-client';
+
+import classnames from 'classnames';
+import './room.style.css'
 
 import roomReducer, {
   SET_BILL_DATA,
@@ -30,6 +33,8 @@ const RoomPage = () => {
     hostId: null,
     redirect: false
   });
+
+  const [btnStatus, setStatus] = useState(false);
 
   const roomId = useParams().id;
   const { currentUser } = useContext(AuthContext);
@@ -139,9 +144,19 @@ const RoomPage = () => {
     return false;
   };
 
+  const toggleButtonStatus = () => {
+    btnStatus ? setStatus(false) : setStatus(true);
+  }
+
+  const bodyClass = classnames("body", {
+    "body--cartOpen": btnStatus 
+  });
+
   return (
-    <div>
-      <h1>Room</h1>
+    <>
+    <div className={bodyClass} onClick={() => toggleButtonStatus()}></div>
+    <div className="body">
+      <h1>Room {roomId}</h1>
       {!isNull(state.billData) ? (
         <ItemList
           itemsData={state.billData}
@@ -152,17 +167,21 @@ const RoomPage = () => {
         <h1>LOADING</h1>
       )}
 
-      {state.cartData.length !== 0 && (
-        <div>
-          <h2>CART</h2>
+      {isComplete() && <Button>See Summary</Button>}
+      
+      <div className='cart__button'onClick={() => toggleButtonStatus()}>
+        CART {state.cartData.length}
+      </div>
+
+      {btnStatus && (
+        <div className='cart'>
           <Cart cartData={state.cartData} billData={state.billData} />
         </div>
       )}
 
-      {isComplete() && <Button>See Summary</Button>}
-
       {state.redirect && <Redirect to={'/main'} />}
     </div>
+    </>
   );
 };
 

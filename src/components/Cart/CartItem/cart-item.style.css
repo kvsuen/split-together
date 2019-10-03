@@ -1,0 +1,14 @@
+.cart__item__name {
+  margin-left: 10vw;
+}
+
+.cart__item__price {
+  margin-right: 5vw;
+  margin-inline-start: auto;
+}
+
+.cart__item {
+  display: flex;
+  width: 100%;
+  margin-bottom: 3vh;
+}

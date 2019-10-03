@@ -1,14 +1,16 @@
-import React, { useEffect, useReducer, useContext } from 'react';
+import React, { useEffect, useReducer, useContext, useState } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
 import { AuthContext } from '../../firebase/auth.context';
 import { isNull } from 'util';
 
 import ItemList from '../../components/ItemList/item-list.component';
 import Cart from '../../components/Cart/cart.component';
-import Button from '../../components/Button/button.component';
 
 import Axios from 'axios';
 import io from 'socket.io-client';
+
+import classnames from 'classnames';
+import './room.style.css'
 
 import roomReducer, {
   SET_BILL_DATA,
@@ -16,10 +18,12 @@ import roomReducer, {
   SET_ITEM_CHECKED,
   SET_ITEM_UNCHECKED,
   SET_CART_ITEMS,
+  SET_IS_HOST,
   ON_ITEM_UNCHECK,
   ON_ITEM_CHECK,
   ON_REDIRECT
 } from '../../reducers/room.reducer';
+import ButtonRedirect from '../../components/RedirectButton/button-redirect.component';
 
 const socket = io.connect(process.env.REACT_APP_API_SERVER_URL);
 
@@ -28,9 +32,12 @@ const RoomPage = () => {
     billData: null,
     cartData: [],
     hostId: null,
-    redirect: false
+    redirect: false,
+    isHost: null
   });
 
+  const [btnStatus, setStatus] = useState(false);
+  
   const roomId = useParams().id;
   const { currentUser } = useContext(AuthContext);
 
@@ -42,6 +49,7 @@ const RoomPage = () => {
       )
         .then(resp => {
           dispatch({ type: SET_INITIAL_CART_ITEM, value: resp.data });
+          dispatch({ type: SET_IS_HOST, value: currentUser.uid })
         })
         .catch(resp => {
           console.log(resp);
@@ -128,7 +136,7 @@ const RoomPage = () => {
     let keys = [];
     let uncheckedItems = [];
 
-    if (state.billData && currentUser.uid === state.hostId) {
+    if (state.billData && state.isHost) {
       keys = Object.keys(state.billData);
       uncheckedItems = keys.filter(
         key => state.billData[key].is_checked === false
@@ -139,9 +147,51 @@ const RoomPage = () => {
     return false;
   };
 
+  const toggleButtonStatus = () => {
+    btnStatus ? setStatus(false) : setStatus(true);
+  }
+
+  const bodyClass = classnames("body", {
+    "body--cartOpen": btnStatus 
+  });
+
+  const isCompleteNotHost = () => {
+    if (!isNull(state.billData) && !state.isHost) {
+      const arrObj = Object.values(state.billData)  
+      return arrObj.every(obj => {
+        return obj['is_checked']
+      })
+    }
+    return false
+  };
+
+  const lengthLogic = () => {
+    if (!isNull(state.billData) && state.cartData.length >= 0) {
+      let keys = []
+      let uncheckedItems = []
+      
+      keys = Object.keys(state.billData);
+      uncheckedItems = keys.filter(
+        key => state.billData[key].is_checked === false
+      );
+      return uncheckedItems.length !== 0;
+    }
+    return false;
+  }
+
   return (
-    <div>
-      <h1>Room</h1>
+    <>
+    <div className={bodyClass} onClick={() => toggleButtonStatus()}></div>
+    <div className="body">
+      <h1>Room {roomId}</h1>
+      {isComplete() && 
+        <div className='redirectWrap'>
+          <ButtonRedirect route={`/room/${roomId}/summary`}>
+            See Summary
+          </ButtonRedirect>
+        </div>}
+      {lengthLogic() && <h2>Please Select Item(s)</h2>}
+      {isCompleteNotHost() && <h2>Waiting On Host</h2>}
       {!isNull(state.billData) ? (
         <ItemList
           itemsData={state.billData}
@@ -151,18 +201,24 @@ const RoomPage = () => {
       ) : (
         <h1>LOADING</h1>
       )}
+      
+      <div className='cart__button' onClick={() => toggleButtonStatus()}>
+        SELECTED {state.cartData.length}
+      </div>
 
-      {state.cartData.length !== 0 && (
-        <div>
-          <h2>CART</h2>
-          <Cart cartData={state.cartData} billData={state.billData} />
+      {btnStatus && (
+        <div className='cart'>
+          <Cart 
+            cartData={state.cartData} 
+            billData={state.billData}
+            handleSwipe={handleSwipe} 
+          />
         </div>
       )}
 
-      {isComplete() && <Button>See Summary</Button>}
-
       {state.redirect && <Redirect to={'/main'} />}
     </div>
+    </>
   );
 };
 

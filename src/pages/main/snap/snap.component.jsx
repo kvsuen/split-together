@@ -1,6 +1,7 @@
 import React, { useReducer, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../../../firebase/auth.context';
+import { CSSTransitionGroup } from 'react-transition-group' 
 import Camera, { IMAGE_TYPES } from 'react-html5-camera-photo';
 
 import './react-camera.css';
@@ -13,8 +14,9 @@ import leftArrow from './icons/left_arrow.png';
 import reducer, {
   SET_PHOTO,
   SET_REDIRECT_BOOLEAN,
-  SET_ROOM_ID
-} from '../../../reducers/snap';
+  SET_ROOM_ID,
+  TOGGLE_ERROR
+} from '../../../reducers/snap.reducer';
 
 import useVisualMode from '../../../hooks/useVisualMode';
 
@@ -24,12 +26,12 @@ const SnapPage = ({ toggleSwipe, setPageTo }) => {
   const CAMERA = 'CAMERA';
   const PREVIEW = 'PREVIEW';
   const LOADING = 'LOADING';
-  const ERROR = 'ERROR';
 
   const [state, dispatch] = useReducer(reducer, {
     photo: null,
     redirect: false,
-    roomId: null
+    roomId: null,
+    error: false
   });
 
   const { mode, transition } = useVisualMode(CAMERA);
@@ -63,12 +65,16 @@ const SnapPage = ({ toggleSwipe, setPageTo }) => {
           dispatch({ type: SET_ROOM_ID, value: resp.data.payload });
           dispatch({ type: SET_REDIRECT_BOOLEAN, value: true });
         } else if (resp.data.type === 'ERROR') {
-          transition(ERROR);
+          transition(CAMERA);
+          dispatch({ type: TOGGLE_ERROR, value: true })
+          setTimeout(dispatch({ type: TOGGLE_ERROR, value: false }), 2500)
         }
       })
       .catch(resp => {
         console.log(resp.data);
-        transition(ERROR);
+        transition(CAMERA);
+        dispatch({ type: TOGGLE_ERROR, value: true })
+        setTimeout(dispatch({ type: TOGGLE_ERROR, value: false }), 2500)
       });
   };
 
@@ -81,11 +87,6 @@ const SnapPage = ({ toggleSwipe, setPageTo }) => {
     <div className={'camera'}>
       {mode === CAMERA && (
         <div>
-          {mode === ERROR && (
-            <div className={"error"}>
-              <h2>Something went wrong, please try again.</h2>
-            </div>
-          )}
           <Camera
             onTakePhoto={dataUri => {
               onTakePhoto(dataUri);
@@ -144,6 +145,16 @@ const SnapPage = ({ toggleSwipe, setPageTo }) => {
           <h5 className={'loading_screen__text'}>Image Recognition Magic</h5>
         </div>
       )}
+
+      <CSSTransitionGroup
+      transitionName="error"
+      transitionEnterTimeout={2500}>
+        {state.error && (
+          <div className={"error"}>
+            <h5 className={"error__text"}>Something went wrong. Please try again.</h5>
+          </div>
+        )}
+      </CSSTransitionGroup>
 
       {state.redirect && <Redirect to={`/roominvitation/${state.roomId}`} />}
     </div>

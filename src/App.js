@@ -18,22 +18,18 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="App">
-          <header className="App-header">
-            <Switch>
-              <Route exact path="/" component={HomePage} />
-              <Route exact path="/login" component={LoginPage} />
-              <Route exact path="/signup" component={SignupPage} />
-              <PrivateRoute exact path="/main" component={MainPage} />
-              <Route
-                exact
-                path="/roominvitation/:id"
-                component={RoomInvitationPage}
-              />
-              <Route exact path="/room/:id" component={RoomPage} />
-            </Switch>
-          </header>
-        </div>
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/signup" component={SignupPage} />
+          <PrivateRoute exact path="/main" component={MainPage} />
+          <Route
+            exact
+            path="/roominvitation/:id"
+            component={RoomInvitationPage}
+          />
+          <Route exact path="/room/:id" component={RoomPage} />
+        </Switch>
       </Router>
     </AuthProvider>
   );

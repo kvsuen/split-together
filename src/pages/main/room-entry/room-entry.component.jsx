@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import Button from '../../../components/Button/button.component';
 import QrReader from 'react-qr-reader';
 import ButtonRedirect from '../../../components/RedirectButton/button-redirect.component';
 import { Redirect } from 'react-router-dom';
 
 import './room-entry.style.css';
+import NumberButton from '../../../components/NumberButton/numberbutton.component';
 
 const RoomEntryPage = () => {
   const regex = /room\/.*/g;
@@ -47,11 +47,35 @@ const RoomEntryPage = () => {
     });
   };
 
+  //NUMPAD GENERATOR
+  const digits = [1,2,3,4,5,6,7,8,9,0]
+
+  const targetRoomCode = (digit) => {
+    let codeField = document.getElementById('route-id')
+    if (codeField.value.length < 3) {
+      codeField.value += digit;
+      setState({...state, text: codeField.value})
+    }
+  }
+
+  const numberPad = digits.map((digit) => {
+    return (
+      <NumberButton 
+        digit={digit}
+        targetRoomCode={targetRoomCode}
+      />
+    )
+  });
+
+  const deleteANumber = () => {
+    const codeField = document.getElementById('route-id');
+    codeField.value = codeField.value.slice(0, codeField.value.length - 1);
+    setState({...state, text: codeField.value})
+  }
+
   return (
     <div className={'room_entry_page'}>
-      <header className={'room_header'}>
-        <h2 className={'room_header__title'}>Room Entry</h2>
-      </header>
+      <h1>Room Entry</h1>
       {!state.qrReaderStatus && (
         <div className={'input_container'}>
           <input
@@ -62,15 +86,21 @@ const RoomEntryPage = () => {
             placeholder='Input room number'
             onChange={() => handleChange()}
           />
+          
+          <div className='numpad__wrapper'>
+            {numberPad}
+            <div className='digit' onClick={() => deleteANumber()}>
+              D
+            </div>
+            <ButtonRedirect className={'entry_button'} route={`room/${state.text}`} >ENTER ROOM</ButtonRedirect>
+          </div>
 
-          <ButtonRedirect className={'entry_button'} route={`room/${state.text}`} >ENTER ROOM</ButtonRedirect>
         </div>
       )}
       
       <div className={'entry_footer'}>
         <button className={'entry_footer__switch'} onClick={() => qrScanner()}>QR READER</button>
       </div>
-
 
       {state.qrReaderStatus && (
         <div>

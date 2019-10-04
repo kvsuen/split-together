@@ -21,9 +21,6 @@ const RoomInvitationPage = () => {
       <div className="qr-code">
         <QRCode value={`https://1668118e.ngrok.io/room/${roomId}`}/>
       </div>
-      {/* <Link to={`/room/${roomId}`}>
-        TEST
-      </Link> */}
       <ButtonRedirect
         route={`/room/${roomId}`}
       >

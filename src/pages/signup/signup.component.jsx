@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { withRouter, Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import firebase from '../../firebase/firebase.utils';
 import { AuthContext } from '../../firebase/auth.context';
 
@@ -12,7 +12,8 @@ import './signup.style.css';
 
 const SignupPage = ({ history }) => {
   const [values, setValues] = React.useState({
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: ''
   });
@@ -27,12 +28,23 @@ const SignupPage = ({ history }) => {
     event.preventDefault();
     const { email, password } = values;
     try {
+      if (currentUser) {
+        throw Error("You're already logged in");
+      }
       const { user } = await firebase
         .auth()
         .createUserWithEmailAndPassword(email, password);
+      if (user) {
+        await user.updateProfile({
+          displayName: `${values.firstName} ${values.lastName}`
+        })
+      }
+      
       await Axios.post(`${process.env.REACT_APP_API_SERVER_URL}/signup`, {
         user_email: user.email,
-        u_id: user.uid
+        u_id: user.uid,
+        first_name: values.firstName,
+        last_name: values.lastName
       });
       history.push('/main');
     } catch (error) {
@@ -40,24 +52,30 @@ const SignupPage = ({ history }) => {
     }
   };
 
-  if (currentUser) {
-    return <Redirect to="/main" />;
-  }
-
   return (
     <div>
       <h1>Create New Account</h1>
 
       <form className="signup__form" onSubmit={handleSignUp}>
         <TextField
-          id="outlined-name-input"
-          label="Full Name"
+          id="outlined-first-name-input"
+          label="First Name"
           type="text"
           name="name"
           margin="normal"
           variant="outlined"
-          value={values.name}
-          onChange={handleChange('name')}
+          value={values.firstName}
+          onChange={handleChange('firstName')}
+        />
+        <TextField
+          id="outlined-last-name-input"
+          label="Last Name"
+          type="text"
+          name="name"
+          margin="normal"
+          variant="outlined"
+          value={values.lastName}
+          onChange={handleChange('lastName')}
         />
         <TextField
           id="outlined-email-input"

@@ -3,6 +3,11 @@
   flex-direction: column;
 }
 
+.room_entry_page h1 {
+  margin-left: 10vw;
+  font-size: 2em;
+}
+
 .room_header {
   display: flex;
   background-color: #3963C7;
@@ -28,6 +33,7 @@
 .input_container__input {
   height: 50px;
   text-align: center;
+  margin-bottom: 5vh;
 }
 
 .entry_button {
@@ -44,11 +50,27 @@
 }
 
 .entry_footer__switch {
-
   background-color: #3963C7;
   border: none;
   color: white;
   border-radius: 4px;
   outline: none;
   right: 10vw;
+}
+
+.numpad__wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.numpad__wrapper .digit {
+  margin-top: 2.5vh;
+  margin-bottom: 2.5vh;
+  flex: 1 0 33%;
+  font-size: 5vh;
+  text-align: center;
+}
+
+.numpad__wrapper .redirect {
+  flex: 1 0 33%;
 }

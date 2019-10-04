@@ -1,13 +1,17 @@
 import React, { useReducer, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../../../firebase/auth.context';
-import { CSSTransitionGroup } from 'react-transition-group' 
+import { CSSTransitionGroup } from 'react-transition-group';
 import Camera, { IMAGE_TYPES } from 'react-html5-camera-photo';
+
+import LoadingScreen from '../../../components/LoadingScreen/loading-screen.component';
+
+import Fab from '@material-ui/core/Fab';
+import SendIcon from '@material-ui/icons/Send';
+import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
 
 import './react-camera.css';
 import './snap.style.css';
-import rightArrow from '../icons/right_arrow.png';
-import leftArrow from '../icons/left_arrow.png';
 
 import reducer, {
   SET_PHOTO,
@@ -65,16 +69,16 @@ const SnapPage = ({ toggleSwipe }) => {
         } else if (resp.data.type === 'ERROR') {
           transition(CAMERA);
           toggleSwipe();
-          dispatch({ type: TOGGLE_ERROR, value: true })
-          setTimeout(dispatch({ type: TOGGLE_ERROR, value: false }), 2500)
+          dispatch({ type: TOGGLE_ERROR, value: true });
+          setTimeout(dispatch({ type: TOGGLE_ERROR, value: false }), 2500);
         }
       })
       .catch(resp => {
         console.log(resp.data);
         transition(CAMERA);
         toggleSwipe();
-        dispatch({ type: TOGGLE_ERROR, value: true })
-        setTimeout(dispatch({ type: TOGGLE_ERROR, value: false }), 2500)
+        dispatch({ type: TOGGLE_ERROR, value: true });
+        setTimeout(dispatch({ type: TOGGLE_ERROR, value: false }), 2500);
       });
   };
 
@@ -102,37 +106,34 @@ const SnapPage = ({ toggleSwipe }) => {
       {mode === PREVIEW && (
         <div className={'react-html5-camera-photo '}>
           <header className={'header'}>
-            <img
+            <ArrowBackRoundedIcon
               className={'header__take_another'}
-              src={leftArrow}
-              alt="Take Another"
               onClick={() => takeAnother()}
             />
           </header>
+
           <img className={'camera__preview'} src={state.photo} alt="Preview" />
-            <div id="send_button" onClick={() => sendImage()}>
-              <img src={rightArrow} alt="Send" />
-            </div>
+          <Fab
+            id="send_button"
+            color="primary"
+            aria-label="add"
+            onClick={() => sendImage()}
+          >
+            <SendIcon />
+          </Fab>
         </div>
       )}
 
       {mode === LOADING && (
-        <div className={'loading_screen'}>
-          <div
-            className={
-              'loading_screen__spinner loading_screen__spinner--circle'
-            }
-          ></div>
-          <h5 className={'loading_screen__text'}>Image Recognition Magic</h5>
-        </div>
+        <LoadingScreen>Image Recognition Magic..</LoadingScreen>
       )}
 
-      <CSSTransitionGroup
-      transitionName="error"
-      transitionEnterTimeout={2500}>
+      <CSSTransitionGroup transitionName="error" transitionEnterTimeout={2500}>
         {state.error && (
-          <div className={"error"}>
-            <h5 className={"error__text"}>Something went wrong. Please try again.</h5>
+          <div className={'error'}>
+            <h5 className={'error__text'}>
+              Something went wrong. Please try again.
+            </h5>
           </div>
         )}
       </CSSTransitionGroup>

@@ -3,6 +3,8 @@ import { Route, Redirect } from 'react-router-dom';
 import { AuthContext } from './auth.context';
 import { isNull } from 'util';
 
+import LoadingScreen from '../components/LoadingScreen/loading-screen.component';
+
 import './private-route.style.css';
 
 const PrivateRoute = ({ component: Component, exact, path }) => {
@@ -18,15 +20,7 @@ const PrivateRoute = ({ component: Component, exact, path }) => {
           render={props => <Component {...props} />}
         />
       ) : (
-        <div className={'loading_screen'}>
-          <div
-            className={
-              'loading_screen__spinner loading_screen__spinner--circle'
-            }
-          >
-          </div>
-          <h5 className={'loading_screen__text'}>Loading..</h5>
-        </div>
+        <LoadingScreen>Loading..</LoadingScreen>
       )}
     </div>
   );

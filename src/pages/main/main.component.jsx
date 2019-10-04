@@ -5,12 +5,13 @@ import SnapPage from './snap/snap.component';
 import DashboardPage from './dashboard/dashboard.component';
 import RoomEntryPage from './room-entry/room-entry.component';
 
-import userLogo from './icons/analysis.png';
-import enterLogo from './icons/receipt.png';
-import cameraLogo from './icons/camera.png';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 
 import './main.style.css';
-
 const MainPage = () => {
   const [disabled, setDisabled] = useState(false);
   const [index, setIndex] = useState(1);
@@ -19,50 +20,43 @@ const MainPage = () => {
     disabled ? setDisabled(false) : setDisabled(true);
   };
 
-  const setPageTo = num => {
-    setIndex(num);
+  const handleChangeIndex = ind => {
+    setIndex(ind);
   };
 
-  const handleChangeIndex = ind => {
-    setIndex(ind)
-  }
+  const handleChange = (event, value) => {
+    setIndex(value)
+  };
+
 
   return (
     <div>
-      <SwipeableViews index={index} disabled={disabled} onChangeIndex={ind => handleChangeIndex(ind)}>
+      <SwipeableViews
+        index={index}
+        disabled={disabled}
+        onChangeIndex={ind => handleChangeIndex(ind)}
+      >
         <div>
           <DashboardPage />
         </div>
         <div>
-          <SnapPage toggleSwipe={toggleSwipe} setPageTo={setPageTo} />
+          <SnapPage toggleSwipe={toggleSwipe} />
         </div>
         <div>
           <RoomEntryPage />
         </div>
       </SwipeableViews>
       {!disabled && (
-        <footer className={'footer'}>
-          <img
-            className={'footer__logo footer__logo--left'}
-            src={userLogo}
-            alt="Profile Dashboard"
-            onClick={() => setPageTo(0)}
-          />
-          {index !== 1 && (
-            <img
-              className={'footer__logo footer__logo--center'}
-              src={cameraLogo}
-              alt="Profile Dashboard"
-              onClick={() => setPageTo(1)}
-            />
-          )}
-          <img
-            className={'footer__logo footer__logo--right'}
-            src={enterLogo}
-            alt="Split Bill"
-            onClick={() => setPageTo(2)}
-          />
-        </footer>
+        <BottomNavigation
+          value={index}
+          onChange={handleChange}
+          showLabels
+          className={`footer`}
+        >
+          <BottomNavigationAction label="Dashboard" icon={<DashboardIcon />} />
+          <BottomNavigationAction label="Camera" icon={<CameraAltIcon />} />
+          <BottomNavigationAction label="Room Entry" icon={<MeetingRoomIcon />} />
+        </BottomNavigation>
       )}
     </div>
   );

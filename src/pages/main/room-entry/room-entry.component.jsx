@@ -63,7 +63,7 @@ const RoomEntryPage = () => {
             onChange={() => handleChange()}
           />
 
-          <ButtonRedirect route={`room/${state.text}`} text={'ENTER ROOM'} />
+          <ButtonRedirect className={'entry_button'} route={`room/${state.text}`} >ENTER ROOM</ButtonRedirect>
         </div>
       )}
       

@@ -1,7 +1,6 @@
 import React, { useReducer, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../../../firebase/auth.context';
-import { CSSTransitionGroup } from 'react-transition-group';
 import Camera, { IMAGE_TYPES } from 'react-html5-camera-photo';
 
 import LoadingScreen from '../../../components/LoadingScreen/loading-screen.component';
@@ -9,6 +8,12 @@ import LoadingScreen from '../../../components/LoadingScreen/loading-screen.comp
 import Fab from '@material-ui/core/Fab';
 import SendIcon from '@material-ui/icons/Send';
 import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Button from '@material-ui/core/Button';
 
 import './react-camera.css';
 import './snap.style.css';
@@ -37,7 +42,6 @@ const SnapPage = ({ toggleSwipe }) => {
   });
 
   const { mode, transition } = useVisualMode(CAMERA);
-
   const { currentUser } = useContext(AuthContext);
 
   const onTakePhoto = dataUri => {
@@ -61,30 +65,32 @@ const SnapPage = ({ toggleSwipe }) => {
       config: { headers: { 'Content-Type': 'multipart/form-data' } }
     })
       .then(resp => {
-        console.log('success');
-        console.log(resp.data);
         if (resp.data.type === 'REDIRECT') {
           dispatch({ type: SET_ROOM_ID, value: resp.data.payload });
           dispatch({ type: SET_REDIRECT_BOOLEAN, value: true });
         } else if (resp.data.type === 'ERROR') {
-          transition(CAMERA);
-          toggleSwipe();
-          dispatch({ type: TOGGLE_ERROR, value: true });
-          setTimeout(dispatch({ type: TOGGLE_ERROR, value: false }), 2500);
+          handleError(resp.data)
         }
       })
       .catch(resp => {
-        console.log(resp.data);
-        transition(CAMERA);
-        toggleSwipe();
-        dispatch({ type: TOGGLE_ERROR, value: true });
-        setTimeout(dispatch({ type: TOGGLE_ERROR, value: false }), 2500);
+        handleError(resp.data)
       });
   };
 
   const takeAnother = () => {
     toggleSwipe();
     transition(CAMERA);
+  };
+
+  const handleError = (msg) => {
+    console.log(msg);
+    transition(CAMERA);
+    toggleSwipe();
+    dispatch({ type: TOGGLE_ERROR, value: true });
+  }
+
+  const handleCloseError = () => {
+    dispatch({ type: TOGGLE_ERROR, value: false });
   };
 
   return (
@@ -128,15 +134,24 @@ const SnapPage = ({ toggleSwipe }) => {
         <LoadingScreen>Image Recognition Magic..</LoadingScreen>
       )}
 
-      <CSSTransitionGroup transitionName="error" transitionEnterTimeout={2500}>
-        {state.error && (
-          <div className={'error'}>
-            <h5 className={'error__text'}>
-              Something went wrong. Please try again.
-            </h5>
-          </div>
-        )}
-      </CSSTransitionGroup>
+      {/* ERROR MESSAGE */}
+      <Dialog
+        open={state.error}
+        onClose={handleCloseError}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Something went wrong. Please try again.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseError} color="primary" autoFocus>
+              OK
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       {state.redirect && <Redirect to={`/roominvitation/${state.roomId}`} />}
     </div>

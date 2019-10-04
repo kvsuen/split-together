@@ -5,6 +5,10 @@ import { Redirect } from 'react-router-dom';
 
 import './room-entry.style.css';
 import NumberButton from '../../../components/NumberButton/numberbutton.component';
+import BackspaceOutlinedIcon from '@material-ui/icons/BackspaceOutlined';
+import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
+import Switch from '@material-ui/core/Switch';
+import CropFreeIcon from '@material-ui/icons/CropFree';
 
 const RoomEntryPage = () => {
   const regex = /room\/.*/g;
@@ -83,23 +87,33 @@ const RoomEntryPage = () => {
             id="route-id"
             type="text"
             value={state.text}
-            placeholder='Input room number'
+            placeholder='Input room code'
             onChange={() => handleChange()}
           />
           
           <div className='numpad__wrapper'>
             {numberPad}
-            <div className='digit' onClick={() => deleteANumber()}>
-              D
+            <div className='backspace' onClick={() => deleteANumber()}>
+              <BackspaceOutlinedIcon/>
             </div>
-            <ButtonRedirect className={'entry_button'} route={`room/${state.text}`} >ENTER ROOM</ButtonRedirect>
+            <ButtonRedirect className={'entry_button'} route={`room/${state.text}`} ><CheckCircleOutlineOutlinedIcon/></ButtonRedirect>
           </div>
 
         </div>
       )}
       
       <div className={'entry_footer'}>
-        <button className={'entry_footer__switch'} onClick={() => qrScanner()}>QR READER</button>
+        <div className='qrSwitch'>
+          <div id='qrSwitch__head'>QR Scanner</div>
+          <div id='qrSwitch__switch'>
+            Off
+            <Switch
+              onChange={() => qrScanner()}
+              color="primary"
+            />
+            On
+          </div>
+        </div>
       </div>
 
       {state.qrReaderStatus && (

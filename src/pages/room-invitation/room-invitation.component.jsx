@@ -5,8 +5,6 @@ import './room-invitation.style.css';
 import Button from '../../components/Button/button.component';
 const QRCode = require('qrcode.react');
 
-
-
 const RoomInvitationPage = () => {
 
   const roomId = useParams().id

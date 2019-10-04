@@ -1,0 +1,12 @@
+.signup__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto 15vw;
+}
+
+.form_submit_button {
+  display: flex;
+  margin: 15px 7vw;
+  height: 50px;
+}

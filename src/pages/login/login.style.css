@@ -1,0 +1,26 @@
+.login__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto 15vw;
+}
+
+.login__form h4 {
+  text-align: center;
+  margin: 5px;
+}
+
+.form_submit_button {
+  display: flex;
+  margin: 15px 7vw;
+  height: 50px;
+}
+
+.form_google_button {
+  display: flex;
+  margin: 15px 7vw;  
+}
+
+.form_google_button img {
+  width: 100%
+}

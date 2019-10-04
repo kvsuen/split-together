@@ -44,9 +44,9 @@
   position: absolute;
   display: flex;
   justify-content: center;
-  bottom: 120px;
+  bottom: 95px;
   width: 100vw;
-  height: 50px;
+  height: 75px;
 }
 
 .entry_footer__switch {
@@ -73,4 +73,48 @@
 
 .numpad__wrapper .redirect {
   flex: 1 0 33%;
+  color: black;
+  background-color: white;
+  box-shadow: none;
+  transform: scale(1.5);
+  width: 100%;
+  /* font-size: 5vh; */
+}
+
+.backspace {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  /* text-align: center; */
+}
+
+.numpad__wrapper .backspace {
+  flex: 1 0 33%;
+  color: black;
+  background-color: white;
+  box-shadow: none;
+}
+
+.numpad__wrapper .backspace .MuiSvgIcon-root {
+  transform: scale(1.5);
+}
+
+.qrSwitch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: red solid 1px; */
+  width: 70%;
+  box-shadow: rgba(0,0,0,.1) 0px 2px 5px 3px;
+  flex-direction: column;
+  height: 100%;
+  /* flex: 1 0 100%; */
+}
+
+#qrSwitch__head {
+  margin-top: 1vh;
+}
+
+#qrSwitch__switch {
+  margin-top: 1vh;
 }

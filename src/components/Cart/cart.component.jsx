@@ -20,7 +20,7 @@ const Cart = ({ cartData, billData, handleSwipe }) => {
   return (
     <div>
       {cartData.length > 0 ? 
-      (<div>
+      (<div className="cart__items__container">
         {itemIds}
       </div>
       ) : (

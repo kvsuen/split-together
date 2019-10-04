@@ -9,7 +9,6 @@
 
 .body--cartOpen {
   position: fixed;
-  /* display: none; */
   top: 0;
   left: 0;
   right: 0;
@@ -37,12 +36,6 @@
   color: white;
   font-weight: bold;
 }
-
-/* .cart__button--withItems {
-  background-color: #613DC1;
-  color: white;
-  font-weight: bold;
-} */
 
 .cart {
   position: absolute;

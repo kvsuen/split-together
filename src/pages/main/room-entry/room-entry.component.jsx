@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
+import { Redirect, Route } from 'react-router-dom';
+
+import classnames from 'classnames';
 import QrReader from 'react-qr-reader';
-import ButtonRedirect from '../../../components/RedirectButton/button-redirect.component';
-import { Redirect } from 'react-router-dom';
+import NumberButton from '../../../components/NumberButton/numberbutton.component';
 
 import './room-entry.style.css';
-import NumberButton from '../../../components/NumberButton/numberbutton.component';
+
+import Switch from '@material-ui/core/Switch';
 import BackspaceOutlinedIcon from '@material-ui/icons/BackspaceOutlined';
 import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
-import Switch from '@material-ui/core/Switch';
-import CropFreeIcon from '@material-ui/icons/CropFree';
 
 const RoomEntryPage = () => {
   const regex = /room\/.*/g;
@@ -17,7 +18,8 @@ const RoomEntryPage = () => {
     qrReaderStatus: false,
     result: 'No result',
     text: '',
-    redirect: false
+    redirect: false,
+    inputFull: false
   });
 
   const qrScanner = () => {
@@ -31,7 +33,6 @@ const RoomEntryPage = () => {
   function handleScan(data) {
     if (data) {
       const parsedStr = data.match(regex);
-
       setState({
         ...state,
         redirect: true,
@@ -59,6 +60,8 @@ const RoomEntryPage = () => {
     if (codeField.value.length < 3) {
       codeField.value += digit;
       setState({...state, text: codeField.value})
+    } else {
+      //logic here for wiggle effect?
     }
   }
 
@@ -74,8 +77,25 @@ const RoomEntryPage = () => {
   const deleteANumber = () => {
     const codeField = document.getElementById('route-id');
     codeField.value = codeField.value.slice(0, codeField.value.length - 1);
-    setState({...state, text: codeField.value})
+    setState({...state, text: codeField.value, inputFull: false})
   }
+
+  const validRoom = (history) => {
+    //!!!!!!NEED FEATURE ADDED!!!!!!
+    //ARRAY FROM AXIOS CALL NEED ALL ROOM IDS
+    const valid = [2, 5];
+    const code = Number(document.getElementById('route-id').value);
+    if (valid.includes(code)) {
+      history.push(`room/${state.text}`)
+    } else {
+      setState({...state, inputFull: true})
+    }
+  };
+
+  //-----------WIP---------------------
+  const itemClass = classnames("code__input", {
+    "code__input--full": state.inputFull,
+  });
 
   return (
     <div className={'room_entry_page'}>
@@ -83,12 +103,13 @@ const RoomEntryPage = () => {
       {!state.qrReaderStatus && (
         <div className={'input_container'}>
           <input
-            className={'input_container__input'}
+            className={`input_container__input ${itemClass}`}
             id="route-id"
             type="text"
             value={state.text}
             placeholder='Input room code'
             onChange={() => handleChange()}
+            readOnly
           />
           
           <div className='numpad__wrapper'>
@@ -96,9 +117,12 @@ const RoomEntryPage = () => {
             <div className='backspace' onClick={() => deleteANumber()}>
               <BackspaceOutlinedIcon/>
             </div>
-            <ButtonRedirect className={'entry_button'} route={`room/${state.text}`} ><CheckCircleOutlineOutlinedIcon/></ButtonRedirect>
+            <Route render={({ history }) => (
+              <div className="backspace" onClick={() => validRoom(history)}>
+                <CheckCircleOutlineOutlinedIcon/>
+              </div>
+            )} />
           </div>
-
         </div>
       )}
       

@@ -1,6 +1,7 @@
 .App {
   /* text-align: center; */
   overflow: hidden;
+  font-family: 'Oxygen', sans-serif;
 }
 
 .App-logo {

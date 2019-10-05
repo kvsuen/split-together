@@ -33,7 +33,17 @@
 .input_container__input {
   height: 50px;
   text-align: center;
+  font-size: 5vh;
   margin-bottom: 5vh;
+  border: none;
+  border-bottom: 1px #4caf50 solid;
+}
+
+.input_container__input:focus {
+  outline: none;
+}
+.input_container__input::placeholder {
+  font-size: 3vh;
 }
 
 .entry_button {
@@ -61,6 +71,7 @@
 .numpad__wrapper {
   display: flex;
   flex-wrap: wrap;
+  color: #4caf50;
 }
 
 .numpad__wrapper .digit {
@@ -73,19 +84,18 @@
 
 .numpad__wrapper .redirect {
   flex: 1 0 33%;
-  color: black;
+  color: #4caf50;
   background-color: white;
   box-shadow: none;
   transform: scale(1.5);
   width: 100%;
-  /* font-size: 5vh; */
 }
 
 .backspace {
   display: flex;
   justify-content: center;
   align-self: center;
-  /* text-align: center; */
+  color: #4caf50 !important;
 }
 
 .numpad__wrapper .backspace {
@@ -103,12 +113,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* border: red solid 1px; */
   width: 70%;
   box-shadow: rgba(0,0,0,.1) 0px 2px 5px 3px;
   flex-direction: column;
   height: 100%;
-  /* flex: 1 0 100%; */
 }
 
 #qrSwitch__head {
@@ -118,3 +126,21 @@
 #qrSwitch__switch {
   margin-top: 1vh;
 }
+
+.qrSwitch .MuiSwitch-thumb {
+  background-color: #4caf50 !important;
+}
+
+.qrSwitch .MuiSwitch-track {
+  background-color: #4caf50 !important;
+}
+
+.code__input {
+  border-bottom-color: #4caf50;
+}
+
+.code__input--full {
+  border-bottom-color: red !important;
+}
+
+

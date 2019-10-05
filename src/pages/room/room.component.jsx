@@ -146,6 +146,8 @@ const RoomPage = () => {
     let keys = [];
     let uncheckedItems = [];
 
+    console.log(state.isHost)
+
     if (state.billData && state.isHost) {
       keys = Object.keys(state.billData);
       uncheckedItems = keys.filter(

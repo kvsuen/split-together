@@ -10,7 +10,7 @@ import LoginPage from './pages/login/login.component';
 import SignupPage from './pages/signup/signup.component';
 import RoomInvitationPage from './pages/room-invitation/room-invitation.component';
 import RoomPage from './pages/room/room.component';
-
+import SummaryPage from './pages/summary/summary.component';
 import './App.css';
 
 function App() {
@@ -29,6 +29,7 @@ function App() {
             component={RoomInvitationPage}
           />
           <Route exact path="/room/:id" component={RoomPage} />
+          <Route exact path="/room/:id/summary" component={SummaryPage} />
         </Switch>
       </Router>
     </AuthProvider>

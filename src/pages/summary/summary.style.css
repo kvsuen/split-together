@@ -1,0 +1,17 @@
+.MuiPaper-root{
+  margin: 10vw;
+}
+
+.summaryPage h1{
+  margin-left: 10vw;
+}
+
+.summaryPage__footer {
+  position: fixed;
+  bottom: 0;
+  border: red solid 1px;
+  min-height: 5vh;
+  min-width: 100vw;
+  z-index: 1;
+  
+}

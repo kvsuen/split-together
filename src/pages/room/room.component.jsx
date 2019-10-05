@@ -69,6 +69,7 @@ const RoomPage = () => {
 
     // SOCKET EVENT LISTENERS
     socket.on('connect', () => {
+      socket.emit('join', `room${roomId}`);
       console.log(socket.connected);
     });
 
@@ -81,6 +82,7 @@ const RoomPage = () => {
     });
 
     socket.on('uncheck', payload => {
+
       handlePayload(payload);
     });
 
@@ -89,6 +91,7 @@ const RoomPage = () => {
     });
 
     return () => {
+      socket.on('leave', `room${roomId}`);
       socket.close();
     };
   }, [roomId]);
@@ -115,7 +118,8 @@ const RoomPage = () => {
       // EMIT UNCHECK
       socket.emit('uncheck', {
         item_id: id,
-        user_email: currentUser.email
+        user_email: currentUser.email,
+        room_id: `room${roomId}`
       });
     } else {
       // ADDS ITEM ID TO CART
@@ -126,7 +130,8 @@ const RoomPage = () => {
       // EMIT CHECK
       socket.emit('check', {
         item_id: id,
-        user_email: currentUser.email
+        user_email: currentUser.email,
+        room_id: `room${roomId}`
       });
     }
 

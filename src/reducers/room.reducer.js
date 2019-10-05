@@ -2,7 +2,6 @@ export const SET_BILL_DATA = 'SET_BILL_DATA';
 export const SET_INITIAL_CART_ITEM = 'SET_INITIAL_CART_ITEM';
 export const SET_ITEM_CHECKED = 'SET_ITEM_CHECKED';
 export const SET_ITEM_UNCHECKED = 'SET_ITEM_UNCHECKED';
-export const SET_CART_ITEMS = 'SET_CART_ITEMS';
 export const SET_IS_HOST = 'SET_IS_HOST';
 export const ADD_CART_ITEM = 'ADD_CART_ITEM';
 export const REMOVE_CART_ITEM = 'REMOVE_CART_ITEM';
@@ -50,12 +49,6 @@ const roomReducer = (state, action) => {
         ...state,
         billData: updateBillState(state, action.value, false)
       };
-
-    case SET_CART_ITEMS:
-      return {
-        ...state,
-        cartData: action.value
-      };
   
     case SET_IS_HOST:
         const res = action.value === state.hostId
@@ -65,15 +58,22 @@ const roomReducer = (state, action) => {
         };
 
     case ADD_CART_ITEM:
+      const items2 = [...state.cartData];
+      items2.push(action.value);
+      
       return {
         ...state,
-        cartData: action.value
+        cartData: items2
       };
 
     case REMOVE_CART_ITEM:
+      let items = [...state.cartData];
+
+      items = items.filter(item => item !== action.value);
+
       return {
         ...state,
-        cartData: action.value
+        cartData: items
       };
 
     case ON_ITEM_CHECK:

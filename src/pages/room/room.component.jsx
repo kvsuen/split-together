@@ -1,6 +1,5 @@
-import React, { useEffect, useReducer, useContext, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
-import { AuthContext } from '../../firebase/auth.context';
 import { isNull } from 'util';
 
 import ItemList from '../../components/ItemList/item-list.component';
@@ -17,17 +16,18 @@ import roomReducer, {
   SET_INITIAL_CART_ITEM,
   SET_ITEM_CHECKED,
   SET_ITEM_UNCHECKED,
-  SET_CART_ITEMS,
   SET_IS_HOST,
   ON_ITEM_UNCHECK,
   ON_ITEM_CHECK,
-  ON_REDIRECT
+  ON_REDIRECT,
+  REMOVE_CART_ITEM,
+  ADD_CART_ITEM
 } from '../../reducers/room.reducer';
 import ButtonRedirect from '../../components/RedirectButton/button-redirect.component';
 
 const socket = io.connect(process.env.REACT_APP_API_SERVER_URL);
 
-const RoomPage = () => {
+const RoomPage = ({ currentUser }) => {
   const [state, dispatch] = useReducer(roomReducer, {
     billData: null,
     cartData: [],
@@ -39,41 +39,37 @@ const RoomPage = () => {
   const [btnStatus, setStatus] = useState(false);
   
   const roomId = useParams().id;
-  const { currentUser } = useContext(AuthContext);
-
-  useEffect(() => {
-    // GET CART DATA FROM API SERVER
-    if (currentUser) {
-      Axios.get(
-        `${process.env.REACT_APP_API_SERVER_URL}/users/${currentUser.uid}/room/${roomId}`
-      )
-        .then(resp => {
-          dispatch({ type: SET_INITIAL_CART_ITEM, value: resp.data });
-          dispatch({ type: SET_IS_HOST, value: currentUser.uid })
-        })
-        .catch(resp => {
-          console.log(resp);
-        });
-    }
-  }, [currentUser, roomId]);
 
   useEffect(() => {
     // GET BILL DATA FROM API SERVER
     Axios.get(`${process.env.REACT_APP_API_SERVER_URL}/room/${roomId}`)
       .then(resp => {
         dispatch({ type: SET_BILL_DATA, value: resp.data });
+        dispatch({ type: SET_IS_HOST, value: currentUser.uid })
       })
       .catch(resp => {
         console.log(resp);
       });
 
+    // GET CART DATA FROM API SERVER
+    Axios.get(
+      `${process.env.REACT_APP_API_SERVER_URL}/users/${currentUser.uid}/room/${roomId}`
+    )
+      .then(resp => {
+        dispatch({ type: SET_INITIAL_CART_ITEM, value: resp.data });
+      })
+      .catch(resp => {
+        console.log(resp);
+      });
+
+    // JOIN WEB SOCKET ROOM
     socket.emit('join', `room${roomId}`);
 
     return () => {
       socket.emit('leave', `room${roomId}`);
       // socket.close();
     };
-  }, [roomId]);
+  }, [roomId, currentUser]);
 
   useEffect(() => {
     // SOCKET EVENT LISTENERS, CREATED ONCE
@@ -91,7 +87,6 @@ const RoomPage = () => {
       });
   
       socket.on('uncheck', payload => {
-  
         handlePayload(payload);
       });
   
@@ -112,14 +107,9 @@ const RoomPage = () => {
   }
 
   function handleSwipe(id) {
-    let items = [...state.cartData];
-
     if (state.billData[id].is_checked) {
       dispatch({ type: SET_ITEM_UNCHECKED, value: id });
-      // REMOVES ITEM FROM CART
-      items = items.filter(item => item !== id);
-      dispatch({ type: SET_CART_ITEMS, value: items });
-
+      dispatch({ type: REMOVE_CART_ITEM, value: id });
       // EMIT UNCHECK
       socket.emit('uncheck', {
         item_id: id,
@@ -127,11 +117,8 @@ const RoomPage = () => {
         room_id: `room${roomId}`
       });
     } else {
-      // ADDS ITEM ID TO CART
       dispatch({ type: SET_ITEM_CHECKED, value: id });
-      items.push(id);
-      dispatch({ type: SET_CART_ITEMS, value: items });
-
+      dispatch({ type: ADD_CART_ITEM, value: id });
       // EMIT CHECK
       socket.emit('check', {
         item_id: id,
@@ -145,8 +132,6 @@ const RoomPage = () => {
   const isComplete = () => {
     let keys = [];
     let uncheckedItems = [];
-
-    console.log(state.isHost)
 
     if (state.billData && state.isHost) {
       keys = Object.keys(state.billData);

@@ -17,7 +17,7 @@ const PrivateRoute = ({ component: Component, exact, path }) => {
         <Route
           exact={exact}
           path={path}
-          render={props => <Component {...props} />}
+          render={props => <Component {...props} currentUser={currentUser} />}
         />
       ) : (
         <LoadingScreen>Loading..</LoadingScreen>

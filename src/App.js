@@ -23,13 +23,13 @@ function App() {
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/signup" component={SignupPage} />
           <PrivateRoute exact path="/main" component={MainPage} />
-          <Route
+          <PrivateRoute
             exact
             path="/roominvitation/:id"
             component={RoomInvitationPage}
           />
-          <Route exact path="/room/:id" component={RoomPage} />
-          <Route exact path="/room/:id/summary" component={SummaryPage} />
+          <PrivateRoute exact path="/room/:id" component={RoomPage} />
+          <PrivateRoute exact path="/room/:id/summary" component={SummaryPage} />
         </Switch>
       </Router>
     </AuthProvider>

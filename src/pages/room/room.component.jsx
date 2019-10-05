@@ -33,7 +33,7 @@ const RoomPage = () => {
     cartData: [],
     hostId: null,
     redirect: false,
-    isHost: null
+    isHost: null,
   });
 
   const [btnStatus, setStatus] = useState(false);
@@ -67,34 +67,39 @@ const RoomPage = () => {
         console.log(resp);
       });
 
-    // SOCKET EVENT LISTENERS
-    socket.on('connect', () => {
-      socket.emit('join', `room${roomId}`);
-      console.log(socket.connected);
-    });
-
-    socket.on('disconnect', () => {
-      console.log('disc');
-    });
-
-    socket.on('check', payload => {
-      handlePayload(payload);
-    });
-
-    socket.on('uncheck', payload => {
-
-      handlePayload(payload);
-    });
-
-    socket.on('redirect', payload => {
-      handlePayload(payload);
-    });
+    socket.emit('join', `room${roomId}`);
 
     return () => {
-      socket.on('leave', `room${roomId}`);
-      socket.close();
+      socket.emit('leave', `room${roomId}`);
+      // socket.close();
     };
   }, [roomId]);
+
+  useEffect(() => {
+    // SOCKET EVENT LISTENERS, CREATED ONCE
+    if (socket._callbacks.$check === undefined) {
+      socket.on('connect', () => {
+        console.log(socket.connected);
+      });
+  
+      socket.on('disconnect', () => {
+        console.log('disc');
+      });
+  
+      socket.on('check', payload => {
+        handlePayload(payload);
+      });
+  
+      socket.on('uncheck', payload => {
+  
+        handlePayload(payload);
+      });
+  
+      socket.on('redirect', payload => {
+        handlePayload(payload);
+      });
+    }
+  }, [])
 
   function handlePayload({ type, item_id }) {
     if (type === 'uncheck') {

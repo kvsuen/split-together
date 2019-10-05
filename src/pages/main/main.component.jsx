@@ -12,6 +12,7 @@ import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 
 import './main.style.css';
+
 const MainPage = () => {
   const [disabled, setDisabled] = useState(false);
   const [index, setIndex] = useState(1);

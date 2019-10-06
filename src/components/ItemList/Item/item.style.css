@@ -6,16 +6,22 @@
   margin-left: 5vw;
   border-radius: 2.5px;
   box-shadow: rgba(0,0,0,.1) 0px 2px 5px 3px;
+  background-color: #68b3af;
+  color: white;
+  font-weight: bold;
 }
 
-.item h4 {
+.item .item__wrapper {
   display: flex;
   width: 100%;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
 }
 
 .item--checked {
-  color: #ACE894;
-  box-shadow: rgba(172,232,148,.4) 0px 2px 5px 3px;
+  color: #e7bf73;
+  box-shadow: #e7bf73 3px 3px 3px;
+  /* box-shadow: rgba(172,232,148,.4) 0px 2px 5px 3px; */
 }
 
 .item--taken {

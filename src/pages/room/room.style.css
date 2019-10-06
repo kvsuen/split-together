@@ -1,9 +1,14 @@
-.body h1 {
+.body--main {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
+  /* height: 100vh; */
+}
+
+.body--main h1 {
   margin-left: 5vw;
   font-size: 3em; 
 }
 
-.body h2 {
+.body--main h2 {
   margin-left: 5vw;
 }
 
@@ -32,7 +37,7 @@
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   box-shadow: rgba(168, 133, 133, 0.2) -1px -1px 5px;
-  background-color: #613DC1;
+  background-color: #808edf;
   color: white;
   font-weight: bold;
 }
@@ -59,11 +64,62 @@
 
 .redirectWrap .redirect {
   margin-left: 5vw;
-  width: 90vw;
+  width: 44vw;
+  height: 8vh;
   margin-bottom: 0vh;
+  background-color: #808edf;
+  margin-top: 2vh;
 }
 
 .room-invite {
   min-height: 100vh;
   max-height: 100vh;
+}
+
+#room__header {
+  margin-top: 0;
+  overflow: auto;
+  box-shadow: rgba(0,0,0,.1) 0px 2px 5px 3px;
+  min-height: 26vh;
+}
+
+#room__header h1, h2 {
+  font-weight: 100;
+}
+
+#room__header h1 {
+  margin-bottom: 0;
+}
+
+#room__header h2 {
+  opacity: .7;
+}
+
+#room__header__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#room__header__container .MuiSvgIcon-root {
+  margin-right: 5vw;
+  font-size: 5vh;
+  background-color: #808edf;
+  padding: 2vw;
+  color: white;
+  border-radius: 5px;
+  margin-top: 4.3vh;
+}
+
+.body--main .itemlist {
+  margin-top: 4vh;
+  overflow: scroll;
+  min-height: 52vh;
+}
+
+#cart__button__text {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 80vw;
 }

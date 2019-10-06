@@ -1,11 +1,16 @@
 .room_entry_page {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
+}
+
+.room_entry_page {
   display: flex;
   flex-direction: column;
 }
 
 .room_entry_page h1 {
-  margin-left: 10vw;
+  margin-left: 15vw;
   font-size: 2em;
+  font-weight: 100;
 }
 
 .room_header {

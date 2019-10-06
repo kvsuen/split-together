@@ -6,6 +6,9 @@ import { isNull } from 'util';
 import ItemList from '../../components/ItemList/item-list.component';
 import Cart from '../../components/Cart/cart.component';
 
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+
 import Axios from 'axios';
 import io from 'socket.io-client';
 
@@ -146,8 +149,6 @@ const RoomPage = () => {
     let keys = [];
     let uncheckedItems = [];
 
-    console.log(state.isHost)
-
     if (state.billData && state.isHost) {
       keys = Object.keys(state.billData);
       uncheckedItems = keys.filter(
@@ -194,16 +195,23 @@ const RoomPage = () => {
   return (
     <>
     <div className={bodyClass} onClick={() => toggleButtonStatus()}></div>
-    <div className="body">
-      <h1>Room {roomId}</h1>
-      {isComplete() && 
-        <div className='redirectWrap'>
-          <ButtonRedirect route={`/room/${roomId}/summary`}>
-            See Summary
-          </ButtonRedirect>
-        </div>}
-      {lengthLogic() && <h2>Please Select Item(s)</h2>}
-      {isCompleteNotHost() && <h2>Waiting On Host</h2>}
+    
+    <div className="body--main">
+      <header id="room__header">
+        <div id="room__header__container">
+          <h1>Room {roomId}</h1>
+          <a href={`/main`}><ArrowBackIcon/></a>
+        </div>
+        {isComplete() && 
+          <div className='redirectWrap'>
+            <ButtonRedirect route={`/room/${roomId}/summary`}>
+              SUMMARY
+            </ButtonRedirect>
+          </div>}
+        {lengthLogic() && <h2>Please Select Item(s)</h2>}
+        {isCompleteNotHost() && <h2>Waiting On Host</h2>}
+      </header>
+
       {!isNull(state.billData) ? (
         <ItemList
           itemsData={state.billData}
@@ -215,7 +223,10 @@ const RoomPage = () => {
       )}
       
       <div className='cart__button' onClick={() => toggleButtonStatus()}>
-        SELECTED {state.cartData.length}
+        <div id="cart__button__text">
+          SELECTED {state.cartData.length}
+          <ShoppingBasketIcon />
+        </div>
       </div>
 
       {btnStatus && (

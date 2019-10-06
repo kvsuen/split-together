@@ -56,14 +56,14 @@ const Item = ({ id, is_checked, name, unit_price, handleSwipe, cartData }) => {
           }}
           onClick={() => handleSwipe(id)}
         >
-          <h4>
+          <div className="item__wrapper">
             <div className='room__item__name'>
               {name}
             </div>
             <div className='room__item__price'>
               {unit_price}
             </div>
-          </h4>
+          </div>
           {/* <input type="checkbox" checked={is_checked}></input> */}
         </animated.div>
       )}

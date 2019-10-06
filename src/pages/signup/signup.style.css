@@ -5,8 +5,32 @@
   margin: auto 15vw;
 }
 
+.signup__form h4 {
+  text-align: center;
+  margin: 5px;
+  font-family: 'Raleway', 'sans-serif';
+}
+
 .form_submit_button {
   display: flex;
-  margin: 15px 7vw;
+  margin: 15px 10vw;
   height: 50px;
+}
+
+.signup__form__names {
+  display: flex;
+  justify-content: space-between;
+}
+
+.signup__form__names div.MuiFormControl-root {
+  width:48%
+}
+
+.form_google_button {
+  display: flex;
+  margin: 15px 8vw;  
+}
+
+.form_google_button img {
+  width: 100%
 }

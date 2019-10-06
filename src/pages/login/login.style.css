@@ -8,17 +8,18 @@
 .login__form h4 {
   text-align: center;
   margin: 5px;
+  font-family: 'Raleway', 'sans-serif';
 }
 
 .form_submit_button {
   display: flex;
-  margin: 15px 7vw;
+  margin: 15px 10vw;
   height: 50px;
 }
 
 .form_google_button {
   display: flex;
-  margin: 15px 7vw;  
+  margin: 15px 8vw;  
 }
 
 .form_google_button img {

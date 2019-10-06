@@ -1,10 +1,12 @@
 .button__component {
-  background-color: #3963C7;
+  background-color: #808edf;
   border: none;
-  padding: 1em; 
   color: white;
   font-weight: bold;
   border-radius: 4px;
   box-shadow: rgba(0,0,0,.2) 0px 2px 5px 2px;
   flex: 1;
+  font-family: 'Raleway', 'sans-serif';
+  font-weight: normal;
+  font-size: 18px;
 }

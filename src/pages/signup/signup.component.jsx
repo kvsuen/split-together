@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { withRouter } from 'react-router-dom';
-import firebase from '../../firebase/firebase.utils';
+import firebase, { signInWithGoogle } from '../../firebase/firebase.utils';
 import { AuthContext } from '../../firebase/auth.context';
 
 import Button from '../../components/Button/button.component';
@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField';
 
 import Axios from 'axios';
 
+import googleSignIn from './btn_google_signin_light_normal_web@2x.png';
 import './signup.style.css';
 
 const SignupPage = ({ history }) => {
@@ -57,26 +58,29 @@ const SignupPage = ({ history }) => {
       <h1>Create New Account</h1>
 
       <form className="signup__form" onSubmit={handleSignUp}>
-        <TextField
-          id="outlined-first-name-input"
-          label="First Name"
-          type="text"
-          name="name"
-          margin="normal"
-          variant="outlined"
-          value={values.firstName}
-          onChange={handleChange('firstName')}
-        />
-        <TextField
-          id="outlined-last-name-input"
-          label="Last Name"
-          type="text"
-          name="name"
-          margin="normal"
-          variant="outlined"
-          value={values.lastName}
-          onChange={handleChange('lastName')}
-        />
+        <div className="signup__form__names">
+          <TextField
+            id="outlined-first-name-input"
+            label="First Name"
+            type="text"
+            name="name"
+            margin="normal"
+            variant="outlined"
+            value={values.firstName}
+            onChange={handleChange('firstName')}
+          />
+          <TextField
+            id="outlined-last-name-input"
+            label="Last Name"
+            type="text"
+            name="name"
+            margin="normal"
+            variant="outlined"
+            value={values.lastName}
+            onChange={handleChange('lastName')}
+          />
+        </div>
+
         <TextField
           id="outlined-email-input"
           label="Email Address"
@@ -99,7 +103,16 @@ const SignupPage = ({ history }) => {
           onChange={handleChange('password')}
         />
         <div className="form_submit_button">
-          <Button type="submit">Create Account</Button>
+          <Button type="submit">Sign up</Button>
+        </div>
+
+        <h4> OR </h4>
+        <div className="form_google_button">
+          <img
+            src={googleSignIn}
+            alt="Google Sign In"
+            onClick={() => signInWithGoogle()}
+          />
         </div>
       </form>
     </div>

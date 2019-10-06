@@ -112,9 +112,10 @@
 }
 
 .body--main .itemlist {
-  margin-top: 4vh;
   overflow: scroll;
-  min-height: 52vh;
+  min-height: 63vh;
+  max-height: 63vh;
+  padding-top: 2vh;
 }
 
 #cart__button__text {

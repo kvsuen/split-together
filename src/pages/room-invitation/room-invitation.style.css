@@ -5,7 +5,7 @@
 }
 
 .room-invite {
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   align-items: center;
   color: black;
@@ -13,19 +13,30 @@
   width: 100%;
   min-height: 100vh;
   flex-direction: column;
-  font-size: calc(10px + 2vmin);
+  /* font-size: calc(10px + 2vmin); */
   color: black;
 }
 
+.room-invite_header {
+  font-family: 'Raleway', 'sans-serif';
+  box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.2);
+}
+
 .room-invite h1 {
-  font-size: 3em;
-  margin-left: 7vh;
+  box-shadow: none;
 }
 
 .room-invite h2 {
-  margin: 0px;
-  margin-inline-end: auto;
-  margin-left: 7vh;
+  padding-left: 7.25vw;
+  padding-bottom: 12px;
+  margin-top: 0;
+  font-weight: normal;
+}
+
+.qr-code_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .qr-code {
@@ -36,6 +47,6 @@
 }
 
 .qr-code canvas {
-  width: 190px !important;
-  height: 190px !important;
+  width: 230px !important;
+  height: 230px !important;
 }

@@ -4,12 +4,13 @@ import { isNull } from 'util';
 
 import ItemList from '../../components/ItemList/item-list.component';
 import Cart from '../../components/Cart/cart.component';
+import ButtonRedirect from '../../components/RedirectButton/button-redirect.component';
 
 import Axios from 'axios';
 import io from 'socket.io-client';
 
 import classnames from 'classnames';
-import './room.style.css'
+import './room.style.css';
 
 import roomReducer, {
   SET_BILL_DATA,
@@ -23,7 +24,6 @@ import roomReducer, {
   REMOVE_CART_ITEM,
   ADD_CART_ITEM
 } from '../../reducers/room.reducer';
-import ButtonRedirect from '../../components/RedirectButton/button-redirect.component';
 
 const socket = io.connect(process.env.REACT_APP_API_SERVER_URL);
 
@@ -72,7 +72,7 @@ const RoomPage = ({ currentUser }) => {
   }, [roomId, currentUser]);
 
   useEffect(() => {
-    // SOCKET EVENT LISTENERS, CREATED ONCE
+    // SOCKET EVENT LISTENERS; CREATED ONCE
     if (socket._callbacks.$check === undefined) {
       socket.on('connect', () => {
         console.log(socket.connected);
@@ -110,6 +110,7 @@ const RoomPage = ({ currentUser }) => {
     if (state.billData[id].is_checked) {
       dispatch({ type: SET_ITEM_UNCHECKED, value: id });
       dispatch({ type: REMOVE_CART_ITEM, value: id });
+      
       // EMIT UNCHECK
       socket.emit('uncheck', {
         item_id: id,
@@ -119,6 +120,7 @@ const RoomPage = ({ currentUser }) => {
     } else {
       dispatch({ type: SET_ITEM_CHECKED, value: id });
       dispatch({ type: ADD_CART_ITEM, value: id });
+
       // EMIT CHECK
       socket.emit('check', {
         item_id: id,
@@ -126,7 +128,6 @@ const RoomPage = ({ currentUser }) => {
         room_id: `room${roomId}`
       });
     }
-
   }
 
   const isComplete = () => {
@@ -140,7 +141,6 @@ const RoomPage = ({ currentUser }) => {
       );
       return uncheckedItems.length === 0;
     }
-
     return false;
   };
 
@@ -159,7 +159,7 @@ const RoomPage = ({ currentUser }) => {
         return obj['is_checked']
       })
     }
-    return false
+    return false;
   };
 
   const lengthLogic = () => {

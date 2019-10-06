@@ -1,10 +1,12 @@
 .redirect {
-  background-color: #3963C7;
+  background-color: #808edf;
   border: none;
-  padding: 1em; 
+  padding: 0.75em; 
   color: white;
   font-weight: bold;
-  width: 75vw;
+  width: 70vw;
   border-radius: 4px;
-  box-shadow: rgba(0,0,0,.2) 0px 2px 5px 3px;
+  box-shadow: rgba(0,0,0,.2) 0px 2px 5px 2px;
+  font-family: 'Raleway', 'sans-serif';
+  font-size: 18px;
 }

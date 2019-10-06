@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { AuthContext } from '../../../firebase/auth.context';
+import React, { useState, useEffect } from 'react';
+import firebase from '../../../firebase/firebase.utils';
 
 import Axios from 'axios';
 
@@ -11,8 +11,7 @@ import ReceiptIcon from '@material-ui/icons/Receipt';
 
 import './dashboard.style.css';
 
-const DashboardPage = () => {
-  const { currentUser } = useContext(AuthContext);
+const DashboardPage = ({ currentUser }) => {
   const [billHistory, setBillHistory] = useState([
     {
       date: '10/01/19 2:23pm',
@@ -26,17 +25,17 @@ const DashboardPage = () => {
     }
   ]);
 
-  // GET BILL HISTORY DATA
-  // useEffect(() => {
-  //   Axios.get(`${process.env.REACT_APP_API_SERVER_URL}/`)
-  //   .then(resp => {
-  //     setBillHistory(resp.data)
-  //     console.log(resp.data)
-  //   })
-  //   .catch(error => {
-  //     console.log(error)
-  //   })
-  // }, [])
+  //GET BILL HISTORY DATA
+  useEffect(() => {
+    Axios.get(`${process.env.REACT_APP_API_SERVER_URL}/asdf`)
+    .then(resp => {
+      setBillHistory(resp.data)
+      console.log(resp.data)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }, [])
 
   const billCards = billHistory.map(bill => {
     const detailItems = bill.items.map(item => {
@@ -72,6 +71,7 @@ const DashboardPage = () => {
   return (
     <div>
       <h1>Dashboard Page</h1>
+      <button onClick={() => firebase.auth().signOut()}>Sign out</button>
 
       <section className={'history'}>
         <h2>History</h2>

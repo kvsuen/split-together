@@ -1,6 +1,5 @@
-import React, { useReducer, useContext } from 'react';
+import React, { useReducer } from 'react';
 import { Redirect } from 'react-router-dom';
-import { AuthContext } from '../../../firebase/auth.context';
 import Camera, { IMAGE_TYPES } from 'react-html5-camera-photo';
 
 import LoadingScreen from '../../../components/LoadingScreen/loading-screen.component';
@@ -29,7 +28,7 @@ import useVisualMode from '../../../hooks/useVisualMode';
 
 import Axios from 'axios';
 
-const SnapPage = ({ toggleSwipe }) => {
+const SnapPage = ({ toggleSwipe, currentUser }) => {
   const CAMERA = 'CAMERA';
   const PREVIEW = 'PREVIEW';
   const LOADING = 'LOADING';
@@ -42,14 +41,13 @@ const SnapPage = ({ toggleSwipe }) => {
   });
 
   const { mode, transition } = useVisualMode(CAMERA);
-  const { currentUser } = useContext(AuthContext);
 
   const onTakePhoto = dataUri => {
     dispatch({ type: SET_PHOTO, value: dataUri });
     transition(PREVIEW);
     toggleSwipe();
   };
-
+  
   const sendImage = () => {
     const base64Image = state.photo.split(',');
     const data = new FormData();

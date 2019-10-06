@@ -13,7 +13,7 @@ import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 
 import './main.style.css';
 
-const MainPage = () => {
+const MainPage = ({ currentUser }) => {
   const [disabled, setDisabled] = useState(false);
   const [index, setIndex] = useState(1);
 
@@ -29,7 +29,6 @@ const MainPage = () => {
     setIndex(value)
   };
 
-
   return (
     <div>
       <SwipeableViews
@@ -38,10 +37,10 @@ const MainPage = () => {
         onChangeIndex={ind => handleChangeIndex(ind)}
       >
         <div>
-          <DashboardPage />
+          <DashboardPage currentUser={currentUser} />
         </div>
         <div>
-          <SnapPage toggleSwipe={toggleSwipe} />
+          <SnapPage toggleSwipe={toggleSwipe} currentUser={currentUser} />
         </div>
         <div>
           <RoomEntryPage />

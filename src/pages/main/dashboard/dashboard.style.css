@@ -1,63 +1,36 @@
-/* h1 {
-  font-size: 2.125rem;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  font-weight: 400;
-  line-height: 1.17;
-  letter-spacing: 0.00735em;
-} */
-
 .history {
+  font-family: 'Raleway', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
+.history h2 {
+  width: 90%; 
+  text-align: center; 
+  border-bottom: 1px solid rgb(128, 142, 223, 0.4); 
+  line-height: 0.1em;
+  margin: 10px 0 20px; 
+}
+
+.history h2 span { 
+  background:#fff; 
+  padding:0 10px; 
+  text-align: center;
+  font-weight: normal;
+  font-size: 18px;
+  color: #808edf;
 }
 
 .history__cards {
   display: flex;
   flex-direction: column;
   margin: 5px 5vw;
+  width: 90%;
 }
 
-.history__card {
-  margin: 5px 0;
-}
-
-.history__card__text_container {
-
-}
-
-.history__card__upper_text {
-  margin: 0;
-}
-
-.history__card__lower_text {
-  margin: 0;
-  color: rgb(183, 179, 190)
-}
-
-.MuiExpansionPanelSummary-content {
-  align-items: center;
-}
-
-.history__card svg {
-  transform: scale(1.5);
-  margin: 0 10px 0 0;
-}
-
-.history__card__detail_container {
-  width: 100%;
-}
-
-.history__card__detail_item {
-  display: flex;
-  justify-content: space-between;
-}
-
-.history__card__detail_item p {
-  margin-bottom: 5px;
-  margin-top: 0px;
-}
-
-.history__card__detail_subtotal {
-  margin-bottom: 0;
-  margin-top: 10px;
-  text-align: right;
+.history__cards--none {
+  width: 60%;
+  text-align: center;
+  background-color: rgb(235, 235, 235)!important;
 }

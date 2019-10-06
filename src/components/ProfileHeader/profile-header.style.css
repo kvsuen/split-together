@@ -1,0 +1,38 @@
+.profile_header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile_header__badge {
+  background-color: #68b3af !important;
+  font-size: 28px!important;
+  width: 50px!important;
+  height: 50px!important; 
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.profile_header__username {
+  font-weight: bold;  
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.profile_header__email {
+  color: rgb(100, 100, 100);
+  font-size: 12px;
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.profile_header__signout {
+  background-color: #e7bf73;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  min-height: 25px;
+  font-size: 14px;
+  font-weight: normal;
+}

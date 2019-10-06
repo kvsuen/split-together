@@ -1,0 +1,34 @@
+.history__card {
+  margin-bottom: 20px;
+}
+
+.history__card__header {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+
+.history__card__primary {
+  display: flex;
+  justify-content: space-between;
+}
+
+.history__card__secondary {
+  display: flex;
+  justify-content: space-between;
+}
+
+.history__card__primary_text {
+  margin: 2px 5px;
+  font-size: 14px;
+  color: rgb(150, 150, 150);
+}
+
+.history__card__secondary_text {
+  margin: 2px 5px;
+  font-weight: bold;
+}
+
+.history__cards .MuiAvatar-colorDefault {
+  background-color: #808edf;
+}

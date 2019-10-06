@@ -30,7 +30,7 @@ const SignupPage = ({ history }) => {
     const { email, password } = values;
     try {
       if (currentUser) {
-        throw Error("You're already logged in");
+        throw Error("Oops! You're already logged in");
       }
       const { user } = await firebase
         .auth()

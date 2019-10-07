@@ -157,7 +157,7 @@
 
 .code__input {
   border-bottom-color: #808edf;
-  margin-top: 15px;
+  /* margin-top: 15px; */
 }
 
 .code__input--full {

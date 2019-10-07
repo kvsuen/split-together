@@ -1,6 +1,7 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Route } from 'react-router-dom';
 import ButtonRedirect from '../../components/RedirectButton/button-redirect.component';
+import CloseIcon from '@material-ui/icons/Close';
 
 import './room-invitation.style.css';
 
@@ -12,7 +13,12 @@ const RoomInvitationPage = () => {
   return (
     <div className="room-invite">
       <div className='room-invite_header'>
-        <h1>Invitation</h1>
+        <div className="room-invite_header_upper">
+          <h1>Invitation</h1>
+          <Route render={({ history }) => (
+            <CloseIcon onClick={() => { history.push('/main')}}/>
+          )} />
+        </div>
         <h2>Room#: {roomId}</h2>
       </div>
       <div className='qr-code_container'>

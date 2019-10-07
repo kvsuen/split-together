@@ -7,11 +7,11 @@
   flex-direction: column;
 }
 
-.room_entry_page h1 {
+/* .room_entry_page h1 {
   margin-left: 15vw;
   font-size: 2em;
   font-weight: 100;
-}
+} */
 
 .room_header {
   display: flex;
@@ -157,6 +157,7 @@
 
 .code__input {
   border-bottom-color: #808edf;
+  margin-top: 15px;
 }
 
 .code__input--full {
@@ -164,7 +165,7 @@
 }
 
 #input_container__body {
-  min-height: 35vh;
+  max-height: 35vh;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -232,5 +233,6 @@
 
 .room_entry_page .footerWrapper {
   position: fixed;
-  bottom: 7vh;
+  /* bottom: 7vh; */
+  top: 55vh;
 }

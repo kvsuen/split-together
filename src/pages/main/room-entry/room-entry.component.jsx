@@ -25,11 +25,11 @@ const RoomEntryPage = () => {
 
   const [rooms, setRooms] = useState([]);
   const [qrStatus, setStatus] = useState(false);
-  // useEffect(() => {
-  //   Axios.get(`${process.env.REACT_APP_API_SERVER_URL}/rooms`)
-  //     .then(res => setRooms([res.data]))
-  //     .catch(err => console.log(err))
-  // },[])
+  useEffect(() => {
+    Axios.get(`${process.env.REACT_APP_API_SERVER_URL}/rooms`)
+      .then(res => setRooms(res.data))
+      .catch(err => console.log(err))
+  },[])
 
   const qrScanner = () => {
     if (state.qrReaderStatus) {
@@ -78,6 +78,7 @@ const RoomEntryPage = () => {
   const numberPad = digits.map((digit) => {
     return (
       <NumberButton 
+        key={digit}
         digit={digit}
         targetRoomCode={targetRoomCode}
       />
@@ -120,7 +121,9 @@ const RoomEntryPage = () => {
     {/* <div className={bodyClass} onClick={() => toggleQrStatus()}></div> */}
     <div className={'room_entry_page'}>
       {!state.qrReaderStatus && (
-        <h1>Room Entry</h1>
+        <div>
+          <h1>Room Entry</h1>
+        </div>
       )}
         <div className={'input_container'}>
 

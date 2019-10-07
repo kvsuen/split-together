@@ -130,6 +130,10 @@
   justify-content: space-between;
 }
 
+#room__header__container h1 {
+  font-size: 6vh;
+}
+
 #room__header__container .MuiSvgIcon-root {
   margin-right: 5vw;
   font-size: 3.5vh;

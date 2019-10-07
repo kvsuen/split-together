@@ -10,13 +10,27 @@ import ReceiptIcon from '@material-ui/icons/Receipt';
 import Divider from '@material-ui/core/Divider';
 import BillHistoryDetailItem from './bill-history-detail-items.component';
 
-const BillHistoryItem = ({ date, items, subtotal, hostId, splitBy }) => {
+const BillHistoryItem = ({
+  date,
+  items,
+  subtotal,
+  hostId,
+  groupSize,
+  currentUser
+}) => {
   const detailItems = items.map(item => {
-    const { id, name, price } = item
-    return (
-      <BillHistoryDetailItem key={id} name={name} price={price}/>
-    );
+    const { id, name, price } = item;
+    return <BillHistoryDetailItem key={id} name={name} price={price} />;
   });
+
+  let partySize = '';
+  if (groupSize > 1) {
+    partySize += `with ${groupSize - 1} other`
+  }
+
+  if (groupSize > 2) {
+    partySize += 's'
+  }
 
   return (
     <Card className={'history__card'}>
@@ -28,8 +42,16 @@ const BillHistoryItem = ({ date, items, subtotal, hostId, splitBy }) => {
               <p className={'history__card__primary_text'}>Total</p>
             </div>
             <div className={'history__card__secondary'}>
-              <p className={'history__card__secondary_text'}>Host</p>
-              <p className={'history__card__secondary_text'}>$ {subtotal.toFixed(2)}</p>
+              <p className={'history__card__secondary_text'}>
+                {currentUser.uid === hostId ? (
+                  <div>Host {partySize}</div>
+                ) : (
+                  <div>Borrowee {partySize}</div>
+                )}
+              </p>
+              <p className={'history__card__secondary_text'}>
+                $ {(subtotal * 1.13).toFixed(2)}
+              </p>
             </div>
           </div>
         </ListItem>
@@ -45,9 +67,7 @@ const BillHistoryItem = ({ date, items, subtotal, hostId, splitBy }) => {
               <p className={'history__card__primary_text'}>On:</p>
             </div>
             <div className={'history__card__secondary'}>
-              <p className={'history__card__secondary_text'}>
-                {date}
-              </p>
+              <p className={'history__card__secondary_text'}>{date}</p>
             </div>
           </div>
         </ListItem>

@@ -8,31 +8,15 @@ import Axios from 'axios';
 import './dashboard.style.css';
 
 const DashboardPage = ({ currentUser }) => {
-  const [billHistory, setBillHistory] = useState([
-    {
-      date: '10/01/19 2:23pm',
-      items: [{ id: 1, name: 'Fries', price: 2.2 }, { id: 2, name: 'Burger', price: 4.2 }],
-      subtotal: 6.4,
-      id: 1,
-      hostId: 'dsalkdajs',
-      splitBy: 4
-    },
-    {
-      date: '10/02/19 8:08am',
-      items: [{ id: 3, name: 'Fries', price: 2.2 }, { id: 4, name: 'Burger', price: 4.2 }],
-      subtotal: 6.4,
-      id: 2,
-      hostId: 'dsalkdajdsfsds',
-      splitBy: 4
-    }
-  ]);
+  const [billHistory, setBillHistory] = useState([]);
 
   //GET BILL HISTORY DATA
   useEffect(() => {
     Axios.get(
-      `${process.env.REACT_APP_API_SERVER_URL}/users/${currentUser.uid}/bills`
+      `${process.env.REACT_APP_API_SERVER_URL}/user/${currentUser.uid}/bills`
     )
       .then(resp => {
+        console.log(resp.data)
         setBillHistory(resp.data);
       })
       .catch(error => {
@@ -54,7 +38,7 @@ const DashboardPage = ({ currentUser }) => {
           </Card>
         ) : (
           <div className={'history__cards'}>
-            <BillHistoryList billHistory={billHistory} />
+            <BillHistoryList billHistory={billHistory} currentUser={currentUser} />
           </div>
         )}
 

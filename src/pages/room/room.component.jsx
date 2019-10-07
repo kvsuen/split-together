@@ -11,7 +11,6 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import Slide from '@material-ui/core/Slide';
 import Fade from '@material-ui/core/Fade';
-import Collapse from '@material-ui/core/Collapse';
 import CloseIcon from '@material-ui/icons/Close';
 
 import Axios from 'axios';
@@ -98,7 +97,7 @@ const RoomPage = ({ currentUser }) => {
         handlePayload(payload);
       });
   
-      socket.on('redirect', payload => {
+      socket.on('finalize', payload => {
         handlePayload(payload);
       });
     }
@@ -184,6 +183,10 @@ const RoomPage = ({ currentUser }) => {
     return false;
   }
 
+  const emitRedirect = () => {
+    socket.emit('finalize', {room_id: roomId})
+  }
+
   return (
     <>
     <div className={bodyClass} onClick={() => toggleButtonStatus()}></div>
@@ -198,7 +201,7 @@ const RoomPage = ({ currentUser }) => {
         </div>
         {isComplete() && 
           <Fade in={isComplete()}>
-          <div className='redirectWrap'>
+          <div className='redirectWrap' onClick={() => emitRedirect()}>
             <ButtonRedirect route={`/room/${roomId}/summary`}>
               <div className="redirect__arrow"><ArrowForwardIcon/></div> 
               <div className="redirect__text">Finalize</div>

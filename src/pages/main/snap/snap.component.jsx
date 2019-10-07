@@ -95,7 +95,7 @@ const SnapPage = ({ toggleSwipe }) => {
 
   return (
     <div className={'camera'}>
-      {/* {mode === CAMERA && (
+      {mode === CAMERA && (
         <div>
           <Camera
             onTakePhoto={dataUri => {
@@ -107,7 +107,7 @@ const SnapPage = ({ toggleSwipe }) => {
             isDisplayStartCameraError={false}
           />
         </div>
-      )} */}
+      )}
 
       {mode === PREVIEW && (
         <div className={'react-html5-camera-photo '}>

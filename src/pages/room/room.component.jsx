@@ -6,6 +6,13 @@ import ItemList from '../../components/ItemList/item-list.component';
 import Cart from '../../components/Cart/cart.component';
 import ButtonRedirect from '../../components/RedirectButton/button-redirect.component';
 
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+import Slide from '@material-ui/core/Slide';
+import Fade from '@material-ui/core/Fade';
+import Collapse from '@material-ui/core/Collapse';
+import CloseIcon from '@material-ui/icons/Close';
+
 import Axios from 'axios';
 import io from 'socket.io-client';
 
@@ -179,16 +186,34 @@ const RoomPage = ({ currentUser }) => {
   return (
     <>
     <div className={bodyClass} onClick={() => toggleButtonStatus()}></div>
-    <div className="body">
-      <h1>Room {roomId}</h1>
-      {isComplete() && 
-        <div className='redirectWrap'>
-          <ButtonRedirect route={`/room/${roomId}/summary`}>
-            See Summary
-          </ButtonRedirect>
-        </div>}
-      {lengthLogic() && <h2>Please Select Item(s)</h2>}
-      {isCompleteNotHost() && <h2>Waiting On Host</h2>}
+    
+    <div className="body--main">
+      <header id="room__header">
+        <div id="room__header__container">
+          <h1>Room {roomId}</h1>
+          <a href={`/main`}><CloseIcon/></a>
+        </div>
+        {isComplete() && 
+          <Fade in={isComplete()}>
+          <div className='redirectWrap'>
+            <ButtonRedirect route={`/room/${roomId}/summary`}>
+              <div className="redirect__arrow"><ArrowForwardIcon/></div> 
+              <div className="redirect__text">Finalize</div>
+            </ButtonRedirect>
+          </div>
+          </Fade>}
+        {lengthLogic() && 
+          <Fade in={lengthLogic()}>
+            <h2>Please Select Item(s)</h2>
+          </Fade>
+        }
+        {isCompleteNotHost() && 
+          <Fade in={isCompleteNotHost()}>
+            <h2>Waiting On Host</h2>
+          </Fade>
+        }
+      </header>
+
       {!isNull(state.billData) ? (
         <ItemList
           itemsData={state.billData}
@@ -200,17 +225,22 @@ const RoomPage = ({ currentUser }) => {
       )}
       
       <div className='cart__button' onClick={() => toggleButtonStatus()}>
-        SELECTED {state.cartData.length}
+        <div id="cart__button__text">
+          Selected Items {state.cartData.length}
+          <ShoppingBasketIcon />
+        </div>
       </div>
 
       {btnStatus && (
-        <div className='cart'>
-          <Cart 
-            cartData={state.cartData} 
-            billData={state.billData}
-            handleSwipe={handleSwipe} 
-          />
-        </div>
+        <Slide direction="up" in={btnStatus}>
+          <div className='cart'>
+            <Cart 
+              cartData={state.cartData} 
+              billData={state.billData}
+              handleSwipe={handleSwipe} 
+            />
+          </div>
+        </Slide>
       )}
 
       {state.redirect && <Redirect to={'/main'} />}

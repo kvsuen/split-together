@@ -1,17 +1,83 @@
-.MuiPaper-root{
-  /* margin: 10vw; */
+.summaryPage #room_icon {
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+  margin-bottom: 5vh;
+}
+
+.summaryPage .MuiPaper-root{
+  margin-left: 5vw;
+  margin-right: 5vw;
 }
 
 .summaryPage h1{
   margin-left: 10vw;
+  font-weight: 100;
 }
 
 .summaryPage__footer {
   position: fixed;
   bottom: 0;
   border: red solid 1px;
-  min-height: 5vh;
+  min-height: 12vh;
   min-width: 100vw;
   z-index: 1;
-  
 }
+
+.summary__amount {
+  font-size: 7vh;
+  font-weight: 100;
+}
+
+.summaryPage .MuiCard-root {
+  width: 80vw;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+}
+
+.summaryPage .MuiExpansionPanel-root {
+  width: 80vw;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+} 
+
+.summaryPage .MuiExpansionPanelSummary-content {
+  justify-content: space-between;
+}
+
+.summaryPage .Mui-expanded {
+  align-self: center;
+}
+
+.summary__itemwrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.summaryPage .MuiCardContent-root {
+  display: flex; 
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary__itemdetails {
+  display: flex;
+  width: 100%; 
+  justify-content: space-between;
+}
+
+.summary__itemdetails .summary__itemname {
+
+}
+
+.summary__itemdetails .summary__itemprice {
+
+}
+
+#summaryPage__header__container {
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+}
+

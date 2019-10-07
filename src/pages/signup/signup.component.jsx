@@ -111,7 +111,25 @@ const SignupPage = ({ history }) => {
           <img
             src={googleSignIn}
             alt="Google Sign In"
-            onClick={() => signInWithGoogle()}
+            onClick={() => {
+              signInWithGoogle()
+              .then(result => {
+                const user = result.user;
+                const name = user.displayName.split(' ')
+                Axios.post(`${process.env.REACT_APP_API_SERVER_URL}/signup`, {
+                  user_email: user.email,
+                  u_id: user.uid,
+                  first_name: name[0],
+                  last_name: name[1]
+                })
+                .then(resp => {
+                  history.push('/main');
+                })
+                .catch(error => {
+                  alert(error);
+                })
+              })
+            }}
           />
         </div>
       </form>

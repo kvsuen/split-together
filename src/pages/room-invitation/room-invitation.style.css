@@ -17,13 +17,24 @@
   color: black;
 }
 
+.room-invite .MuiSvgIcon-root {
+  margin-right: 5vw;
+  font-size: 3.5vh;
+  background-color: #808edf;
+  padding: 2vw;
+  color: white;
+  border-radius: 5px;
+  margin-top: 4.3vh;
+  margin-bottom: 1vh;
+}
+
 .room-invite_header {
   font-family: 'Raleway', 'sans-serif';
-  box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.2);
 }
 
 .room-invite h1 {
   box-shadow: none;
+  margin-left: 0;
 }
 
 .room-invite h2 {
@@ -49,4 +60,9 @@
 .qr-code canvas {
   width: 230px !important;
   height: 230px !important;
+}
+
+.room-invite_header_upper {
+  display: flex;
+  justify-content: space-between;
 }

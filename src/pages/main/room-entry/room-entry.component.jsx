@@ -25,11 +25,11 @@ const RoomEntryPage = () => {
 
   const [rooms, setRooms] = useState([]);
   const [qrStatus, setStatus] = useState(false);
-  // useEffect(() => {
-  //   Axios.get(`${process.env.REACT_APP_API_SERVER_URL}/rooms`)
-  //     .then(res => setRooms([res.data]))
-  //     .catch(err => console.log(err))
-  // },[])
+  useEffect(() => {
+    Axios.get(`${process.env.REACT_APP_API_SERVER_URL}/rooms`)
+      .then(res => setRooms(res.data))
+      .catch(err => console.log(err))
+  },[])
 
   const qrScanner = () => {
     if (state.qrReaderStatus) {

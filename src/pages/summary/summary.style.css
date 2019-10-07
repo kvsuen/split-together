@@ -1,3 +1,12 @@
+.summaryPage {
+  min-height: 100vh;
+  max-height: 100vh;
+}
+.summaryPage h1 {
+  padding-left: 0;
+  font-size: 32px;
+}
+
 .summaryPage #room_icon {
   display: flex;
   width: 100vw;
@@ -5,9 +14,22 @@
   margin-bottom: 5vh;
 }
 
+.summaryPage .MuiSvgIcon-root {
+  margin-top: 1vh;
+  margin-right: 5vw;
+  font-size: 3.5vh;
+  background-color: #808edf;
+  padding: 2vw;
+  color: white;
+  border-radius: 5px;
+}
+
 .summaryPage .MuiPaper-root{
+  /* margin-top: 2vh; */
+  position: relative;
   margin-left: 5vw;
   margin-right: 5vw;
+  width: 100%;
 }
 
 .summaryPage h1{
@@ -25,8 +47,9 @@
 }
 
 .summary__amount {
-  font-size: 7vh;
+  font-size: 4vh;
   font-weight: 100;
+  margin-right: 5vw;
 }
 
 .summaryPage .MuiCard-root {
@@ -59,6 +82,9 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  padding: 0;
+  padding-top: 2vh;
+
 }
 
 .summary__itemdetails {
@@ -79,5 +105,27 @@
   display: flex;
   flex-direction: row;
   align-self: center;
+  align-items: center;
 }
 
+.summary__itemcontainer {
+  background-color: #edf1f4;
+  min-height: 80vh;
+  max-height: 80vh;
+  padding-top: 3vh;
+  overflow: scroll;
+}
+
+.MuiCardContent-root .summary__name {
+  font-size: 3vh;
+  margin-left: 5vw;
+  font-weight: 100;
+}
+
+.summary__item__bottom {
+  background-color: #808edf;
+  max-height: .5vh;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}

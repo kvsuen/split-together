@@ -6,6 +6,7 @@
 .body--main h1 {
   margin-left: 5vw;
   font-size: 3em; 
+  padding-left: 0;
 }
 
 .body--main h2 {
@@ -137,6 +138,7 @@
   color: white;
   border-radius: 5px;
   margin-top: 4.3vh;
+  margin-bottom: 1vh;
 }
 
 .body--main .itemlist {

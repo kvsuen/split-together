@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import { useParams, Redirect } from 'react-router-dom';
+import { useParams, Redirect, Route } from 'react-router-dom';
 import { isNull } from 'util';
 
 import ItemList from '../../components/ItemList/item-list.component';
@@ -191,7 +191,9 @@ const RoomPage = ({ currentUser }) => {
       <header id="room__header">
         <div id="room__header__container">
           <h1>Room {roomId}</h1>
-          <a href={`/main`}><CloseIcon/></a>
+          <Route render={({ history }) => (
+            <CloseIcon onClick={() => { history.push('/main')}}/>
+          )} />
         </div>
         {isComplete() && 
           <Fade in={isComplete()}>

@@ -11,6 +11,7 @@
   margin-left: 15vw;
   font-size: 2em;
   font-weight: 100;
+  padding-left: 0;
 }
 
 .room_header {
@@ -232,5 +233,5 @@
 
 .room_entry_page .footerWrapper {
   position: fixed;
-  bottom: 7vh;
+  top: 57vh;
 }

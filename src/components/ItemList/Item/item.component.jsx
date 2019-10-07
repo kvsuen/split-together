@@ -63,6 +63,9 @@ const Item = ({ id, is_checked, name, unit_price, handleSwipe, cartData }) => {
             <div className='room__item__price'>
               {unit_price}
             </div>
+            <div className='room__item__bottom'>
+              <br></br>
+            </div>
           </div>
           {/* <input type="checkbox" checked={is_checked}></input> */}
         </animated.div>

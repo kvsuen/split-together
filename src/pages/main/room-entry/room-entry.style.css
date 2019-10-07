@@ -69,6 +69,7 @@
   justify-content: center;
   bottom: 95px;
   width: 100vw;
+  z-index: 5;
   /* height: 75px; */
 }
 
@@ -135,6 +136,7 @@
   /* box-shadow: rgba(0,0,0,.1) 0px 2px 5px 3px; */
   flex-direction: column;
   height: 100%;
+  z-index: 7;
 }
 
 #qrSwitch__head {
@@ -209,4 +211,26 @@
 
 .firstline {
   margin-top: 5vh;
+}
+
+.body--qrOpen {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 3;
+  min-height: 100vh;
+  background-color: rgba(0,0,0,.6);
+}
+
+.qrOverlay {
+  z-index: 4;
+  background-color: white;
+  min-height: 30vh;
+}
+
+.room_entry_page .footerWrapper {
+  position: fixed;
+  bottom: 7vh;
 }

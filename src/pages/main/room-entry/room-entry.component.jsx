@@ -24,7 +24,7 @@ const RoomEntryPage = () => {
   });
 
   const [rooms, setRooms] = useState([]);
-
+  const [qrStatus, setStatus] = useState(false);
   // useEffect(() => {
   //   Axios.get(`${process.env.REACT_APP_API_SERVER_URL}/rooms`)
   //     .then(res => setRooms([res.data]))
@@ -37,6 +37,7 @@ const RoomEntryPage = () => {
     } else {
       setState({ ...state, qrReaderStatus: true });
     }
+    toggleQrStatus()
   };
 
   function handleScan(data) {
@@ -106,12 +107,25 @@ const RoomEntryPage = () => {
     "code__input--full": state.inputFull,
   });
 
+  const bodyClass = classnames("body", {
+    "body--qrOpen": qrStatus 
+  });
+
+  const toggleQrStatus = () => {
+    qrStatus ? setStatus(false) : setStatus(true)
+  };
+
   return (
+    <>
+    {/* <div className={bodyClass} onClick={() => toggleQrStatus()}></div> */}
     <div className={'room_entry_page'}>
-      <h1>Room Entry</h1>
       {!state.qrReaderStatus && (
+        <h1>Room Entry</h1>
+      )}
         <div className={'input_container'}>
 
+          {!state.qrReaderStatus && (
+          <>
           <main id="input_container__body">
             <div>
               <img id="room_icon" src={require("../icons/room.png")} width="120px" alt="fail"/>
@@ -123,7 +137,6 @@ const RoomEntryPage = () => {
               or scan the QR code
             </div>
           </main>
-
           <input
             className={`input_container__input ${itemClass}`}
             id="route-id"
@@ -133,53 +146,58 @@ const RoomEntryPage = () => {
             onChange={() => handleChange()}
             readOnly
           />
+          </>
+          )}
 
-          <div className={'entry_footer'}>
-            <div className='qrSwitch'>
-              <div id='qrSwitch__switch'>
-                QR Scanner
-                <Switch
-                  onChange={() => qrScanner()}
-                  color="primary"
-                />
+          {state.qrReaderStatus && (
+            <div>
+              <QrReader
+                delay={300}
+                onError={handleError}
+                onScan={handleScan}
+                style={{ width: '100%' }}
+              />
+            </div>
+          )}
+          <footer className="footerWrapper">
+            <div className={'entry_footer'}>
+              <div className='qrSwitch'>
+                <div id='qrSwitch__switch'>
+                  QR Scanner
+                  <Switch
+                    onChange={() => qrScanner()}
+                    color="primary"
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          <section id='section__wrapper'>
-            <div className='numpad__wrapper'>
-              {numberPad}
-            </div>
-            <div id="numpad__sideWrapper">
-            <NumberButton 
-              digit={0}
-              targetRoomCode={targetRoomCode}
-            />
-            <div className='' onClick={() => deleteANumber()}>
-              <BackspaceOutlinedIcon/>
-            </div>
-            <Route render={({ history }) => (
-              <div className="" onClick={() => validRoom(history)}>
-                <CheckCircleOutlineOutlinedIcon/>
+            <section id='section__wrapper'>
+              <div className='numpad__wrapper'>
+                {numberPad}
               </div>
-            )} />
-            </div>
-          </section>
+              <div id="numpad__sideWrapper">
+              <NumberButton 
+                digit={0}
+                targetRoomCode={targetRoomCode}
+              />
+              <div className='' onClick={() => deleteANumber()}>
+                <BackspaceOutlinedIcon/>
+              </div>
+              <Route render={({ history }) => (
+                <div className="" onClick={() => validRoom(history)}>
+                  <CheckCircleOutlineOutlinedIcon/>
+                </div>
+              )} />
+              </div>
+            </section>
+          </footer>
         </div>
-      )}
       
-      {state.qrReaderStatus && (
-        <div>
-          <QrReader
-            delay={300}
-            onError={handleError}
-            onScan={handleScan}
-            style={{ width: '100%' }}
-          />
-        </div>
-      )}
+      
       {state.redirect && <Redirect to={`${state.result}`} />}
     </div>
+    </>
   );
 };
 

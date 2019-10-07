@@ -6,11 +6,12 @@ import { isNull } from 'util';
 import ItemList from '../../components/ItemList/item-list.component';
 import Cart from '../../components/Cart/cart.component';
 
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import Slide from '@material-ui/core/Slide';
 import Fade from '@material-ui/core/Fade';
 import Collapse from '@material-ui/core/Collapse';
+import CloseIcon from '@material-ui/icons/Close';
 
 import Axios from 'axios';
 import io from 'socket.io-client';
@@ -203,13 +204,14 @@ const RoomPage = () => {
       <header id="room__header">
         <div id="room__header__container">
           <h1>Room {roomId}</h1>
-          <a href={`/main`}><ArrowBackIcon/></a>
+          <a href={`/main`}><CloseIcon/></a>
         </div>
         {isComplete() && 
           <Fade in={isComplete()}>
           <div className='redirectWrap'>
             <ButtonRedirect route={`/room/${roomId}/summary`}>
-              FINALIZE
+              <div className="redirect__arrow"><ArrowForwardIcon/></div> 
+              <div className="redirect__text">Finalize</div>
             </ButtonRedirect>
           </div>
           </Fade>}
@@ -237,7 +239,7 @@ const RoomPage = () => {
       
       <div className='cart__button' onClick={() => toggleButtonStatus()}>
         <div id="cart__button__text">
-          SELECTED {state.cartData.length}
+          Selected Items {state.cartData.length}
           <ShoppingBasketIcon />
         </div>
       </div>

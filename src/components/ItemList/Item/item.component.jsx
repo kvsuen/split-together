@@ -34,14 +34,12 @@ const Item = ({ id, is_checked, name, unit_price, handleSwipe, cartData }) => {
     <div>
       {is_checked && !cartData.includes(id) ? (
         <div className={itemClass} id={`item${id}`}>
-          <h4>
-            <div className='room__item__name'>
-              {name}
-            </div>
-            <div className='room__item__price'>
-              {unit_price}
-            </div>
-          </h4>
+          <div className='room__item__name'>
+            {name}
+          </div>
+          <div className='room__item__price'>
+            {unit_price}
+          </div>
         </div>
       ) : (
         <animated.div

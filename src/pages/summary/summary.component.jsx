@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Route } from 'react-router-dom';
 import Axios from 'axios';
 import './summary.style.css'
 
@@ -27,10 +27,13 @@ const SummaryPage = () => {
         <main className="summary__itemwrapper">
           <Card>
             <CardContent>
-              {name}<br/>
+              <div className="summary__name">
+                {name}
+              </div>
               <div className="summary__amount">
                 {amount}
               </div>
+              <div class="summary__item__bottom"><br/></div>
             </CardContent>
           </Card>
         </main>
@@ -41,11 +44,14 @@ const SummaryPage = () => {
     <div className="summaryPage">
       <div id="summaryPage__header__container">
         <h1>Summary</h1>
-        <div className="redirect__arrow"><ArrowForwardIcon/></div>
+          <Route render={({ history }) => (
+            <ArrowForwardIcon onClick={() => { history.push('/main')}}/>
+          )}/>
       </div> 
-      <div id="room_icon">
+      <div><br></br></div>
+      {/* <div id="room_icon">
         <img src={require("./icons/summary.png")} width="120px" alt="fail"/>
-      </div>
+      </div> */}
       <div className="summary__itemcontainer">
         {itemTotals}
       </div>

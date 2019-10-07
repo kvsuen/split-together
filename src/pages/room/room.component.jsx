@@ -243,7 +243,7 @@ const RoomPage = ({ currentUser }) => {
         </Slide>
       )}
 
-      {state.redirect && <Redirect to={'/main'} />}
+      {state.redirect && <Redirect to={`/room/${roomId}/summary`} />}
     </div>
     </>
   );

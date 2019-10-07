@@ -7,12 +7,12 @@
   flex-direction: column;
 }
 
-/* .room_entry_page h1 {
-  margin-left: 15vw;
-  font-size: 2em;
-  font-weight: 100;
-  padding-left: 0;
-} */
+.room_entry_page h1 {
+  font-size: 4.8vh;
+  padding-top: 3vh;
+  padding-bottom: 1.5vh;
+  margin: auto auto 1.5vh auto
+}
 
 .room_header {
   display: flex;
@@ -38,7 +38,7 @@
 }
 
 .input_container__input {
-  height: 50px;
+  height: 6vh;
   text-align: center;
   font-size: 5vh;
   margin-bottom: 4vh;
@@ -167,7 +167,7 @@
 }
 
 #input_container__body {
-  max-height: 35vh;
+  height: 35vh;
   display: flex;
   justify-content: center;
   flex-direction: column;

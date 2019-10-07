@@ -35,6 +35,8 @@
 
 .item--taken {
   display: flex;
+  font-weight: 100 !important;
+  font-size: 3vh;
   justify-content: center;
   align-items: center;
   color: 	#C0C0C0;

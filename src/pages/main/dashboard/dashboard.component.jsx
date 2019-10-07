@@ -41,7 +41,7 @@ const DashboardPage = ({ currentUser }) => {
   }, [currentUser]);
 
   return (
-    <div>
+    <div className={'dashboard'}>
       <h1>Dashboard</h1>
       <ProfileHeader currentUser={currentUser}/>
       <section className={'history'}>

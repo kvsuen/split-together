@@ -1,3 +1,8 @@
+.dashboard {
+  overflow: scroll;
+  max-height: 90vh;
+}
+
 .history {
   font-family: 'Raleway', sans-serif;
   display: flex;

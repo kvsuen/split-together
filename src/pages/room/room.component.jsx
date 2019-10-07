@@ -2,6 +2,7 @@ import React, { useEffect, useReducer, useState } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
 import { isNull } from 'util';
 
+import LoadingScreen from '../../components/LoadingScreen/loading-screen.component';
 import ItemList from '../../components/ItemList/item-list.component';
 import Cart from '../../components/Cart/cart.component';
 import ButtonRedirect from '../../components/RedirectButton/button-redirect.component';
@@ -221,7 +222,7 @@ const RoomPage = ({ currentUser }) => {
           cartData={state.cartData}
         />
       ) : (
-        <h1>LOADING</h1>
+        <LoadingScreen />
       )}
       
       <div className='cart__button' onClick={() => toggleButtonStatus()}>

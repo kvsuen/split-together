@@ -44,7 +44,8 @@
   border: none;
   border-bottom: 1px #4caf50 solid;
   letter-spacing: 5vw;
-  text-align: left;
+  text-align: center;
+  text-indent: 5vw;
   align-self: center;
   width: 80%;
   color: #808edf;
@@ -174,6 +175,7 @@
 
 #room_icon {
   align-content: center;
+  width: 20vh;
 }
 
 #section__wrapper {
@@ -235,4 +237,9 @@
   position: fixed;
   /* bottom: 7vh; */
   top: 55vh;
+  z-index: 10;
+}
+
+div > section > section > div {
+  box-shadow: rgba(255, 255, 255) 0px 0px 0px 5px inset!important;
 }

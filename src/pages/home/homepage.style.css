@@ -1,6 +1,6 @@
 .home__background {
-  background-color: #8EC5FC;
-  background-image: linear-gradient(329deg, #8EC5FC 0%, #E0C3FC 50%, #ffffff 100%);
+  /* background-color: #8EC5FC;
+  background-image: linear-gradient(329deg, #8EC5FC 0%, #E0C3FC 50%, #ffffff 100%); */
   height: 100vh;
   background-size: cover;
 }
@@ -15,7 +15,7 @@
 
 .home__button {
   margin: 15px;
-  background-color: #68b3af;
+  /* background-color: #68b3af; */
   border-radius: 20px;
 }
 

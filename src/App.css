@@ -8,4 +8,6 @@ h1 {
   padding-top: 24px;
   padding-bottom: 12px;
   margin: auto auto 12px auto;
+
+  overflow: hidden;
 }

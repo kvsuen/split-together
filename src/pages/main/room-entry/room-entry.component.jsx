@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 
 import classnames from 'classnames';
@@ -10,6 +10,7 @@ import './room-entry.style.css';
 import Switch from '@material-ui/core/Switch';
 import BackspaceOutlinedIcon from '@material-ui/icons/BackspaceOutlined';
 import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
+import Axios from 'axios';
 
 const RoomEntryPage = () => {
   const regex = /room\/.*/g;
@@ -22,12 +23,21 @@ const RoomEntryPage = () => {
     inputFull: false
   });
 
+  const [rooms, setRooms] = useState([]);
+  const [qrStatus, setStatus] = useState(false);
+  // useEffect(() => {
+  //   Axios.get(`${process.env.REACT_APP_API_SERVER_URL}/rooms`)
+  //     .then(res => setRooms([res.data]))
+  //     .catch(err => console.log(err))
+  // },[])
+
   const qrScanner = () => {
     if (state.qrReaderStatus) {
       setState({ ...state, qrReaderStatus: false });
     } else {
       setState({ ...state, qrReaderStatus: true });
     }
+    toggleQrStatus()
   };
 
   function handleScan(data) {
@@ -53,7 +63,7 @@ const RoomEntryPage = () => {
   };
 
   //NUMPAD GENERATOR
-  const digits = [1,2,3,4,5,6,7,8,9,0]
+  const digits = [1,2,3,4,5,6,7,8,9]
 
   const targetRoomCode = (digit) => {
     let codeField = document.getElementById('route-id')
@@ -83,9 +93,9 @@ const RoomEntryPage = () => {
   const validRoom = (history) => {
     //!!!!!!NEED FEATURE ADDED!!!!!!
     //ARRAY FROM AXIOS CALL NEED ALL ROOM IDS
-    const valid = [2, 5];
+    // const valid = [2, 5];
     const code = Number(document.getElementById('route-id').value);
-    if (valid.includes(code)) {
+    if (rooms.includes(code)) {
       history.push(`room/${state.text}`)
     } else {
       setState({...state, inputFull: true})
@@ -97,11 +107,36 @@ const RoomEntryPage = () => {
     "code__input--full": state.inputFull,
   });
 
+  const bodyClass = classnames("body", {
+    "body--qrOpen": qrStatus 
+  });
+
+  const toggleQrStatus = () => {
+    qrStatus ? setStatus(false) : setStatus(true)
+  };
+
   return (
+    <>
+    {/* <div className={bodyClass} onClick={() => toggleQrStatus()}></div> */}
     <div className={'room_entry_page'}>
-      <h1>Room Entry</h1>
       {!state.qrReaderStatus && (
+        <h1>Room Entry</h1>
+      )}
         <div className={'input_container'}>
+
+          {!state.qrReaderStatus && (
+          <>
+          <main id="input_container__body">
+            <div>
+              <img id="room_icon" src={require("../icons/room.png")} width="120px" alt="fail"/>
+            </div>
+            <div className="firstline">
+              Enter the room via numeric code
+            </div>
+            <div>
+              or scan the QR code
+            </div>
+          </main>
           <input
             className={`input_container__input ${itemClass}`}
             id="route-id"
@@ -111,47 +146,58 @@ const RoomEntryPage = () => {
             onChange={() => handleChange()}
             readOnly
           />
-          
-          <div className='numpad__wrapper'>
-            {numberPad}
-            <div className='backspace' onClick={() => deleteANumber()}>
-              <BackspaceOutlinedIcon/>
-            </div>
-            <Route render={({ history }) => (
-              <div className="backspace" onClick={() => validRoom(history)}>
-                <CheckCircleOutlineOutlinedIcon/>
-              </div>
-            )} />
-          </div>
-        </div>
-      )}
-      
-      <div className={'entry_footer'}>
-        <div className='qrSwitch'>
-          <div id='qrSwitch__head'>QR Scanner</div>
-          <div id='qrSwitch__switch'>
-            Off
-            <Switch
-              onChange={() => qrScanner()}
-              color="primary"
-            />
-            On
-          </div>
-        </div>
-      </div>
+          </>
+          )}
 
-      {state.qrReaderStatus && (
-        <div>
-          <QrReader
-            delay={300}
-            onError={handleError}
-            onScan={handleScan}
-            style={{ width: '100%' }}
-          />
+          {state.qrReaderStatus && (
+            <div>
+              <QrReader
+                delay={300}
+                onError={handleError}
+                onScan={handleScan}
+                style={{ width: '100%' }}
+              />
+            </div>
+          )}
+          <footer className="footerWrapper">
+            <div className={'entry_footer'}>
+              <div className='qrSwitch'>
+                <div id='qrSwitch__switch'>
+                  QR Scanner
+                  <Switch
+                    onChange={() => qrScanner()}
+                    color="primary"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <section id='section__wrapper'>
+              <div className='numpad__wrapper'>
+                {numberPad}
+              </div>
+              <div id="numpad__sideWrapper">
+              <NumberButton 
+                digit={0}
+                targetRoomCode={targetRoomCode}
+              />
+              <div className='' onClick={() => deleteANumber()}>
+                <BackspaceOutlinedIcon/>
+              </div>
+              <Route render={({ history }) => (
+                <div className="" onClick={() => validRoom(history)}>
+                  <CheckCircleOutlineOutlinedIcon/>
+                </div>
+              )} />
+              </div>
+            </section>
+          </footer>
         </div>
-      )}
+      
+      
       {state.redirect && <Redirect to={`${state.result}`} />}
     </div>
+    </>
   );
 };
 

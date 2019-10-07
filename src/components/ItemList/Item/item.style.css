@@ -1,21 +1,36 @@
 .item {
+  position: relative;
   width: 90vw;
   margin-top: 3vh;
   margin-bottom: 1vh;
   margin-right: 5vw;
   margin-left: 5vw;
   border-radius: 2.5px;
+  min-height: 10vh;
   box-shadow: rgba(0,0,0,.1) 0px 2px 5px 3px;
+  /* background-color: #68b3af; */
+  background-color: white;
+  /* color: #808edf; */
+  font-weight: bold !important;
 }
 
-.item h4 {
+.item .item__wrapper {
   display: flex;
   width: 100%;
+  font-size: 3vh;
+  font-weight: 100;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
 }
 
 .item--checked {
-  color: #ACE894;
-  box-shadow: rgba(172,232,148,.4) 0px 2px 5px 3px;
+  color: #68b3af;
+  /* box-shadow: #e7bf73 3px 3px 3px; */
+  /* box-shadow: rgba(172,232,148,.4) 0px 2px 5px 3px; */
+}
+
+.item--checked .room__item__bottom {
+  background-color: #68b3af;
 }
 
 .item--taken {
@@ -26,6 +41,10 @@
   box-shadow: rgba(0,0,0,.1) 0px 2px 5px 3px;
 }
 
+.item--taken .room__item__bottom{
+  color: #C0C0C0;
+}
+
 .room__item__name {
   margin-left: 5vw;
 }
@@ -33,4 +52,12 @@
 .room__item__price {
   margin-right: 5vw;
   margin-inline-start: auto;
+}
+
+.room__item__bottom {
+  background-color: #808edf;
+  max-height: .5vh;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
 }

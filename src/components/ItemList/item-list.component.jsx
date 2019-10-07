@@ -17,7 +17,7 @@ const ItemList = ({ itemsData, handleSwipe, cartData }) => {
       />
     );
   });
-  return <div>{items}</div>;
+  return <div className="itemlist">{items}</div>;
 };
 
 export default ItemList;

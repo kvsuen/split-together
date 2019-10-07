@@ -39,7 +39,7 @@ const LoginPage = ({ history }) => {
   }
 
   return (
-    <div>
+    <div className={'home__background'}>
       <h1>Sign In</h1>
 
       <form className="login__form" onSubmit={handleLogin}>

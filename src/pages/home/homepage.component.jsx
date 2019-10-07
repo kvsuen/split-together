@@ -1,14 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import ButtonRedirect from '../../components/RedirectButton/button-redirect.component';
+
+import Logo from './892e85ee-758f-4ab6-bcc2-1994579887ea_200x200.png';
+
+import './homepage.style.css';
 
 const HomePage = () => {
   return (
-    <div>
-      <h1>HomePage</h1>
-      <Link to="/login">Login</Link>
-      <Link to="/signup">Sign up</Link>
-      <Link to="/main">Main</Link>
-
+    <div className={'home__background'}>
+      <div className={'home__layout'}>
+        <img src={Logo} alt="Logo" />
+        <ButtonRedirect className={'home__button'} route={`/login`}>Log in</ButtonRedirect>
+        <ButtonRedirect className={'home__button home__button--bot'} route={`/signup`}>Sign up</ButtonRedirect>
+      </div>
     </div>
   );
 };

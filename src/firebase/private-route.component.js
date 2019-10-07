@@ -11,7 +11,7 @@ const PrivateRoute = ({ component: Component, exact, path }) => {
   const { currentUser } = useContext(AuthContext);
   return (
     <div>
-      {isNull(currentUser) && <Redirect to={'/login'} />}
+      {isNull(currentUser) && <Redirect to={'/'} />}
 
       {currentUser ? (
         <Route

@@ -54,7 +54,7 @@ const SignupPage = ({ history }) => {
   };
 
   return (
-    <div>
+    <div className={'home__background'}>
       <h1>Create New Account</h1>
 
       <form className="signup__form" onSubmit={handleSignUp}>

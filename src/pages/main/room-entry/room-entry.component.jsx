@@ -192,7 +192,6 @@ const RoomEntryPage = () => {
           </footer>
         </div>
       
-      
       {state.redirect && <Redirect to={`${state.result}`} />}
     </div>
     </>

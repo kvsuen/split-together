@@ -42,7 +42,7 @@ const Cart = ({ cartData, billData, handleSwipe }) => {
         </div>
         <div className="total">
           TOTAL:
-          <div>{x + Number((x * .13).toFixed(2))}</div>
+          <div>{Number((x * 1.13)).toFixed(2)}</div>
         </div>
       </div>
     </div>

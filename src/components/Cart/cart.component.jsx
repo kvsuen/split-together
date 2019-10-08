@@ -34,15 +34,15 @@ const Cart = ({ cartData, billData, handleSwipe }) => {
         </div>
         <div className="subtotal">
           SUBTOTAL: 
-          <div>{x.toFixed(2)}</div>
+          <div>$ {x.toFixed(2)}</div>
         </div>
         <div className="subtotal">
           TAX:
-          <div>{(x * .13).toFixed(2)}</div>
+          <div>$ {(x * .13).toFixed(2)}</div>
         </div>
         <div className="total">
           TOTAL:
-          <div>{Number((x * 1.13)).toFixed(2)}</div>
+          <div>$ {Number((x * 1.13)).toFixed(2)}</div>
         </div>
       </div>
     </div>

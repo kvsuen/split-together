@@ -33,7 +33,7 @@ const SummaryPage = () => {
               <div className="summary__amount">
                 {Number(amount * 1.13).toFixed(2)}
               </div>
-              <div class="summary__item__bottom"><br/></div>
+              <div className="summary__item__bottom"><br/></div>
             </CardContent>
           </Card>
         </main>

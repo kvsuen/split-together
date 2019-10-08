@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 
 import classnames from 'classnames';
@@ -10,6 +10,7 @@ import './room-entry.style.css';
 import Switch from '@material-ui/core/Switch';
 import BackspaceOutlinedIcon from '@material-ui/icons/BackspaceOutlined';
 import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
+
 import Axios from 'axios';
 
 const RoomEntryPage = () => {
@@ -23,13 +24,7 @@ const RoomEntryPage = () => {
     inputFull: false
   });
 
-  const [rooms, setRooms] = useState([]);
   const [qrStatus, setStatus] = useState(false);
-  useEffect(() => {
-    Axios.get(`${process.env.REACT_APP_API_SERVER_URL}/rooms`)
-      .then(res => setRooms(res.data))
-      .catch(err => console.log(err))
-  },[])
 
   const qrScanner = () => {
     if (state.qrReaderStatus) {
@@ -92,18 +87,19 @@ const RoomEntryPage = () => {
   }
 
   const validRoom = (history) => {
-    //!!!!!!NEED FEATURE ADDED!!!!!!
-    //ARRAY FROM AXIOS CALL NEED ALL ROOM IDS
-    // const valid = [2, 5];
     const code = Number(document.getElementById('route-id').value);
-    if (rooms.includes(code)) {
-      history.push(`room/${state.text}`)
-    } else {
-      setState({...state, inputFull: true})
-    }
+
+    Axios.get(`${process.env.REACT_APP_API_SERVER_URL}/rooms`)
+      .then(res => {
+        if (res.data.includes(code)) {
+          history.push(`room/${state.text}`)
+        } else {
+          setState({...state, inputFull: true})
+        }
+      })
+      .catch(err => console.log(err))
   };
 
-  //-----------WIP---------------------
   const itemClass = classnames("code__input", {
     "code__input--full": state.inputFull,
   });
@@ -118,7 +114,6 @@ const RoomEntryPage = () => {
 
   return (
     <>
-    {/* <div className={bodyClass} onClick={() => toggleQrStatus()}></div> */}
     <div className={'room_entry_page'}>
       {!state.qrReaderStatus && (
         <div>
@@ -140,15 +135,15 @@ const RoomEntryPage = () => {
               or scan the QR code
             </div>
           </main>
-          <input
-            className={`input_container__input ${itemClass}`}
-            id="route-id"
-            type="text"
-            value={state.text}
-            placeholder='Input room code'
-            onChange={() => handleChange()}
-            readOnly
-          />
+            <input
+              className={`input_container__input ${itemClass}`}
+              id="route-id"
+              type="text"
+              value={state.text}
+              placeholder='Input room code'
+              onChange={() => handleChange()}
+              readOnly
+            />
           </>
           )}
 
@@ -196,7 +191,6 @@ const RoomEntryPage = () => {
             </section>
           </footer>
         </div>
-      
       
       {state.redirect && <Redirect to={`${state.result}`} />}
     </div>

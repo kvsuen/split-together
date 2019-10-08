@@ -101,7 +101,6 @@ const RoomPage = ({ currentUser }) => {
         handlePayload(payload);
       });
     }
-
     return () => {
       socket.removeListener('connect');
       socket.removeListener('disconnect');

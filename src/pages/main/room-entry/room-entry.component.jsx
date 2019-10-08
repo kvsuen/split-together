@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 
 import classnames from 'classnames';
@@ -12,6 +12,7 @@ import BackspaceOutlinedIcon from '@material-ui/icons/BackspaceOutlined';
 import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
 
 import Axios from 'axios';
+import { useSpring, animated } from 'react-spring';
 
 const RoomEntryPage = () => {
   const regex = /room\/.*/g;
@@ -24,7 +25,19 @@ const RoomEntryPage = () => {
     inputFull: false
   });
 
+  const [rooms, setRooms] = useState([]);
   const [qrStatus, setStatus] = useState(false);
+  
+  const contentProps = useSpring({
+    width: state.inputFull ? "80vw" : "0vw" ,
+    borderTop: state.inputFull ? `red .1vh solid` : "#808edf .1vh solid"
+  })
+
+  useEffect(() => {
+    Axios.get(`${process.env.REACT_APP_API_SERVER_URL}/rooms`)
+      .then(res => setRooms(res.data))
+      .catch(err => console.log(err))
+  },[])
 
   const qrScanner = () => {
     if (state.qrReaderStatus) {
@@ -88,16 +101,11 @@ const RoomEntryPage = () => {
 
   const validRoom = (history) => {
     const code = Number(document.getElementById('route-id').value);
-
-    Axios.get(`${process.env.REACT_APP_API_SERVER_URL}/rooms`)
-      .then(res => {
-        if (res.data.includes(code)) {
-          history.push(`room/${state.text}`)
-        } else {
-          setState({...state, inputFull: true})
-        }
-      })
-      .catch(err => console.log(err))
+    if (rooms.includes(code)) {
+      history.push(`room/${state.text}`)
+    } else {
+      setState({...state, inputFull: true})
+    }
   };
 
   const itemClass = classnames("code__input", {
@@ -144,6 +152,9 @@ const RoomEntryPage = () => {
               onChange={() => handleChange()}
               readOnly
             />
+            <animated.div className="underline" style= {contentProps}>
+              <br></br>
+            </animated.div>
           </>
           )}
 
@@ -179,11 +190,11 @@ const RoomEntryPage = () => {
                 digit={0}
                 targetRoomCode={targetRoomCode}
               />
-              <div className='' onClick={() => deleteANumber()}>
+              <div className='numpad__backspace' onClick={() => deleteANumber()}>
                 <BackspaceOutlinedIcon/>
               </div>
               <Route render={({ history }) => (
-                <div className="" onClick={() => validRoom(history)}>
+                <div className="numpad__enter" onClick={() => validRoom(history)}>
                   <CheckCircleOutlineOutlinedIcon/>
                 </div>
               )} />
@@ -191,6 +202,7 @@ const RoomEntryPage = () => {
             </section>
           </footer>
         </div>
+      
       
       {state.redirect && <Redirect to={`${state.result}`} />}
     </div>

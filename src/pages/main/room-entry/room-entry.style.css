@@ -41,9 +41,9 @@
   height: 6vh;
   text-align: center;
   font-size: 5vh;
-  margin-bottom: 4vh;
+  /* margin-bottom: 4vh; */
   border: none;
-  border-bottom: 1px #4caf50 solid;
+  border-bottom: .1vh #808edf solid;
   letter-spacing: 5vw;
   text-align: center;
   text-indent: 5vw;
@@ -127,7 +127,7 @@
 
 #numpad__sideWrapper .MuiSvgIcon-root {
   transform: scale(1.25);
-  opacity: .6;
+  /* opacity: .6; */
 }
 
 .qrSwitch {
@@ -163,7 +163,8 @@
 }
 
 .code__input--full {
-  border-bottom-color: red !important;
+  border-bottom-color: transparent;
+  /* border-bottom-color: red !important; */
 }
 
 #input_container__body {
@@ -243,4 +244,18 @@
 
 div > section > section > div {
   box-shadow: rgba(255, 255, 255) 0px 0px 0px 5px inset!important;
+}
+
+.numpad__backspace .MuiSvgIcon-root{
+  opacity: .7;
+}
+
+.numpad__enter .MuiSvgIcon-root{
+  color: #808edf;
+}
+
+.underline {
+  margin-left: 10vw;
+  margin-right: 10vw;
+  z-index: 3;
 }

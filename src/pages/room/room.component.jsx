@@ -101,7 +101,17 @@ const RoomPage = ({ currentUser }) => {
         handlePayload(payload);
       });
     }
+    
+    return (() => {
+      socket.removeListener('connect')
+      socket.removeListener('disconnect')
+      socket.removeListener('check')
+      socket.removeListener('uncheck')
+      socket.removeListener('finalize')
+    })
   }, [])
+
+
 
   function handlePayload({ type, item_id }) {
     if (type === 'uncheck') {

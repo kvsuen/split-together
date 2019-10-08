@@ -1,7 +1,10 @@
 .dashboard {
   overflow: scroll;
   max-height: 90vh;
+  min-height: 90vh
 }
+
+.dashboard::-webkit-scrollbar { width: 0 !important }
 
 .history {
   font-family: 'Raleway', sans-serif;

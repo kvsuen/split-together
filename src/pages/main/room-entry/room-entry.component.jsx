@@ -12,7 +12,7 @@ import BackspaceOutlinedIcon from '@material-ui/icons/BackspaceOutlined';
 import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
 
 import Axios from 'axios';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated, useSprings } from 'react-spring';
 
 const RoomEntryPage = () => {
   const regex = /room\/.*/g;
@@ -22,7 +22,8 @@ const RoomEntryPage = () => {
     result: 'No result',
     text: '',
     redirect: false,
-    inputFull: false
+    inputFull: false,
+    select: null
   });
 
   const [qrStatus, setStatus] = useState(false);
@@ -70,17 +71,22 @@ const RoomEntryPage = () => {
     let codeField = document.getElementById('route-id')
     if (codeField.value.length < 3) {
       codeField.value += digit;
-      setState({...state, text: codeField.value})
+      setState({...state, text: codeField.value, select: [digit]})
+      
+      setTimeout(function() {
+        setState({...state, text: codeField.value, select: []})
+      }, 200)
     } else {
       //logic here for wiggle effect?
     }
   }
 
-  const numberPad = digits.map((digit) => {
+  const numberPad = digits.map((digit, idx) => {
     return (
       <NumberButton 
         key={digit}
         digit={digit}
+        select={state.select}
         targetRoomCode={targetRoomCode}
       />
     )
@@ -189,6 +195,7 @@ const RoomEntryPage = () => {
               <div id="numpad__sideWrapper">
               <NumberButton 
                 digit={0}
+                select={state.select}
                 targetRoomCode={targetRoomCode}
               />
               <div className='numpad__backspace' onClick={() => deleteANumber()}>

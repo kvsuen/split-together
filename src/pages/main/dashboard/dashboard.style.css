@@ -1,6 +1,11 @@
 .dashboard {
   overflow: scroll;
   max-height: 90vh;
+  min-height: 80vh;
+}
+
+.dashboard::-webkit-scrollbar {
+  width: 0 !important
 }
 
 .history {

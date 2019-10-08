@@ -38,7 +38,7 @@ const Item = ({ id, is_checked, name, unit_price, handleSwipe, cartData }) => {
             {name}
           </div>
           <div className='room__item__price'>
-            $ {unit_price.toFixed(2)}
+            ${unit_price.toFixed(2)}
           </div>
         </div>
       ) : (
@@ -59,7 +59,7 @@ const Item = ({ id, is_checked, name, unit_price, handleSwipe, cartData }) => {
               {name}
             </div>
             <div className='room__item__price'>
-              $ {unit_price.toFixed(2)}
+              ${unit_price.toFixed(2)}
             </div>
             <div className='room__item__bottom'>
               <br></br>

@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
+import Button from '../../components/Button/button.component';
+import firebase from '../../firebase/firebase.utils';
 import { AuthContext } from '../../firebase/auth.context';
 
 import ButtonRedirect from '../../components/RedirectButton/button-redirect.component';
@@ -10,9 +12,9 @@ import './homepage.style.css';
 const HomePage = () => {
   const { currentUser } = useContext(AuthContext);
 
-  if (currentUser) {
-    return <Redirect to="/main" />;
-  }
+  // if (currentUser) {
+  //   return <Redirect to="/main" />;
+  // }
 
   return (
     <div className={'home__background'}>
@@ -27,6 +29,12 @@ const HomePage = () => {
         >
           Sign up
         </ButtonRedirect>
+        <Button
+          className={'profile_header__signout'}
+          onClick={() => firebase.auth().signOut()}
+        >
+          Sign out
+        </Button>
       </div>
     </div>
   );

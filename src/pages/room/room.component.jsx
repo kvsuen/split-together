@@ -191,7 +191,7 @@ const RoomPage = ({ currentUser }) => {
   };
 
   const emitRedirect = () => {
-    socket.emit('finalize', { room_id: roomId });
+    socket.emit('finalize', { room_id: `room${roomId}` });
   };
 
   return (

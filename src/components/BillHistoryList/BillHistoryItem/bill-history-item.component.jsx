@@ -50,7 +50,7 @@ const BillHistoryItem = ({
                 )}
               </p>
               <p className={'history__card__secondary_text history__card__secondary_text--price'}>
-                $ {(subtotal * 1.13).toFixed(2)}
+                ${(subtotal * 1.13).toFixed(2)}
               </p>
             </div>
           </div>

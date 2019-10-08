@@ -34,7 +34,6 @@
   display: flex;
   flex-direction: column;
   height: 79vh;
-  /* margin: 5vh 15vw; */
 }
 
 #input_container__body div {
@@ -45,7 +44,6 @@
   height: 6vh;
   text-align: center;
   font-size: 5vh;
-  /* margin-bottom: 4vh; */
   border: none;
   border-bottom: .1vh #808edf solid;
   letter-spacing: 5vw;
@@ -70,13 +68,11 @@
 }
 
 .entry_footer {
-  /* position: absolute; */
   display: flex;
   justify-content: center;
   bottom: 95px;
   width: 100vw;
   z-index: 7;
-  /* height: 75px; */
 }
 
 .entry_footer__switch {
@@ -91,7 +87,6 @@
 .numpad__wrapper {
   display: flex;
   flex-wrap: wrap;
-  /* color: #808edf; */
   flex: 1 0 75%;
 }
 
@@ -102,7 +97,6 @@
   font-size: 5vh;
   text-align: center;
   font-weight: 100;
-  /* border: .1px solid red; */
 }
 
 .numpad__wrapper .redirect {
@@ -114,24 +108,8 @@
   width: 100%;
 }
 
-.backspace {
-  /* display: flex;
-  justify-content: center;
-  align-self: center;
-  color: #808edf !important; */
-  /* border: 1px solid red; */
-}
-
-/* .numpad__wrapper .backspace {
-  flex: 1 0 33%;
-  color: black;
-  background-color: white;
-  box-shadow: none;
-} */
-
 #numpad__sideWrapper .MuiSvgIcon-root {
   transform: scale(1.25);
-  /* opacity: .6; */
 }
 
 .qrSwitch {
@@ -139,7 +117,6 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  /* box-shadow: rgba(0,0,0,.1) 0px 2px 5px 3px; */
   flex-direction: column;
   height: 100%;
   z-index: 7;
@@ -164,12 +141,10 @@
 
 .code__input {
   border-bottom-color: #808edf;
-  /* margin-top: 15px; */
 }
 
 .code__input--full {
   border-bottom-color: transparent;
-  /* border-bottom-color: red !important; */
 }
 
 #input_container__body {
@@ -183,12 +158,24 @@
 #room_icon {
   align-content: center;
   width: 20vh;
+  /* -webkit-animation: bounce 2s infinite alternate;
+  animation: bounce 2s infinite alternate; */
 }
+
+/* @-webkit-keyframes bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-7px); }
+}
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-7px)}
+} */
+
 
 #section__wrapper {
   background-color: #edf1f4;
   display: flex;
-  /* border: red solid 1px; */
   margin-top: 1vh;
 }
 
@@ -242,7 +229,6 @@
 
 .room_entry_page .footerWrapper {
   position: fixed;
-  /* bottom: 7vh; */
   top: 55vh;
   z-index: 1;
 }

@@ -8,6 +8,8 @@
   width: 0 !important
 }
 
+.dashboard::-webkit-scrollbar { width: 0 !important }
+
 .history {
   font-family: 'Raleway', sans-serif;
   display: flex;

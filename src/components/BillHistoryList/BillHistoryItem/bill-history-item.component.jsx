@@ -44,9 +44,9 @@ const BillHistoryItem = ({
             <div className={'history__card__secondary'}>
               <p className={'history__card__secondary_text'}>
                 {currentUser.uid === hostId ? (
-                  <div>Host {partySize}</div>
+                  <>Host {partySize}</>
                 ) : (
-                  <div>Borrowee {partySize}</div>
+                  <>Borrowee {partySize}</>
                 )}
               </p>
               <p className={'history__card__secondary_text'}>

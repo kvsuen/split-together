@@ -122,6 +122,7 @@ const RoomEntryPage = () => {
 
   return (
     <>
+    <div className={bodyClass} onClick={() => qrScanner()}/>
     <div className={'room_entry_page'}>
       {!state.qrReaderStatus && (
         <div>
@@ -159,7 +160,7 @@ const RoomEntryPage = () => {
           )}
 
           {state.qrReaderStatus && (
-            <div>
+            <div className="qrReader">
               <QrReader
                 delay={300}
                 onError={handleError}
@@ -174,6 +175,7 @@ const RoomEntryPage = () => {
                 <div id='qrSwitch__switch'>
                   QR Scanner
                   <Switch
+                    checked={state.qrReaderStatus}
                     onChange={() => qrScanner()}
                     color="primary"
                   />

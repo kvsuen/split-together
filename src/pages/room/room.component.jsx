@@ -40,11 +40,11 @@ const RoomPage = ({ currentUser }) => {
     cartData: [],
     hostId: null,
     redirect: false,
-    isHost: null,
+    isHost: null
   });
 
   const [btnStatus, setStatus] = useState(false);
-  
+
   const roomId = useParams().id;
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const RoomPage = ({ currentUser }) => {
     Axios.get(`${process.env.REACT_APP_API_SERVER_URL}/room/${roomId}`)
       .then(resp => {
         dispatch({ type: SET_BILL_DATA, value: resp.data });
-        dispatch({ type: SET_IS_HOST, value: currentUser.uid })
+        dispatch({ type: SET_IS_HOST, value: currentUser.uid });
       })
       .catch(resp => {
         console.log(resp);
@@ -84,34 +84,31 @@ const RoomPage = ({ currentUser }) => {
       socket.on('connect', () => {
         console.log(socket.connected);
       });
-  
+
       socket.on('disconnect', () => {
         console.log('disc');
       });
-  
+
       socket.on('check', payload => {
         handlePayload(payload);
       });
-  
+
       socket.on('uncheck', payload => {
         handlePayload(payload);
       });
-  
+
       socket.on('finalize', payload => {
         handlePayload(payload);
       });
     }
-    
-    return (() => {
-      socket.removeListener('connect')
-      socket.removeListener('disconnect')
-      socket.removeListener('check')
-      socket.removeListener('uncheck')
-      socket.removeListener('finalize')
-    })
-  }, [])
-
-
+    return () => {
+      socket.removeListener('connect');
+      socket.removeListener('disconnect');
+      socket.removeListener('check');
+      socket.removeListener('uncheck');
+      socket.removeListener('finalize');
+    };
+  }, []);
 
   function handlePayload({ type, item_id }) {
     if (type === 'uncheck') {
@@ -127,7 +124,7 @@ const RoomPage = ({ currentUser }) => {
     if (state.billData[id].is_checked) {
       dispatch({ type: SET_ITEM_UNCHECKED, value: id });
       dispatch({ type: REMOVE_CART_ITEM, value: id });
-      
+
       // EMIT UNCHECK
       socket.emit('uncheck', {
         item_id: id,
@@ -163,27 +160,27 @@ const RoomPage = ({ currentUser }) => {
 
   const toggleButtonStatus = () => {
     btnStatus ? setStatus(false) : setStatus(true);
-  }
+  };
 
-  const bodyClass = classnames("body", {
-    "body--cartOpen": btnStatus 
+  const bodyClass = classnames('body', {
+    'body--cartOpen': btnStatus
   });
 
   const isCompleteNotHost = () => {
     if (!isNull(state.billData) && !state.isHost) {
-      const arrObj = Object.values(state.billData)  
+      const arrObj = Object.values(state.billData);
       return arrObj.every(obj => {
-        return obj['is_checked']
-      })
+        return obj['is_checked'];
+      });
     }
     return false;
   };
 
   const lengthLogic = () => {
     if (!isNull(state.billData) && state.cartData.length >= 0) {
-      let keys = []
-      let uncheckedItems = []
-      
+      let keys = [];
+      let uncheckedItems = [];
+
       keys = Object.keys(state.billData);
       uncheckedItems = keys.filter(
         key => state.billData[key].is_checked === false
@@ -191,76 +188,85 @@ const RoomPage = ({ currentUser }) => {
       return uncheckedItems.length !== 0;
     }
     return false;
-  }
+  };
 
   const emitRedirect = () => {
-    socket.emit('finalize', {room_id: roomId})
-  }
+    socket.emit('finalize', { room_id: roomId });
+  };
 
   return (
     <>
-    <div className={bodyClass} onClick={() => toggleButtonStatus()}></div>
-    
-    <div className="body--main">
-      <header id="room__header">
-        <div id="room__header__container">
-          <h1>Room {roomId}</h1>
-          <Route render={({ history }) => (
-            <CloseIcon onClick={() => { history.push('/main')}}/>
-          )} />
-        </div>
-        {isComplete() && 
-          <Fade in={isComplete()}>
-          <div className='redirectWrap' onClick={() => emitRedirect()}>
-            <ButtonRedirect route={`/room/${roomId}/summary`}>
-              <div className="redirect__arrow"><ArrowForwardIcon/></div> 
-              <div className="redirect__text">Finalize</div>
-            </ButtonRedirect>
-          </div>
-          </Fade>}
-        {lengthLogic() && 
-          <Fade in={lengthLogic()}>
-            <h2>Please Select Item(s)</h2>
-          </Fade>
-        }
-        {isCompleteNotHost() && 
-          <Fade in={isCompleteNotHost()}>
-            <h2>Waiting On Host</h2>
-          </Fade>
-        }
-      </header>
+      <div className={bodyClass} onClick={() => toggleButtonStatus()}></div>
 
-      {!isNull(state.billData) ? (
-        <ItemList
-          itemsData={state.billData}
-          handleSwipe={handleSwipe}
-          cartData={state.cartData}
-        />
-      ) : (
-        <LoadingScreen />
-      )}
-      
-      <div className='cart__button' onClick={() => toggleButtonStatus()}>
-        <div id="cart__button__text">
-          Selected Items {state.cartData.length}
-          <ShoppingBasketIcon />
-        </div>
-      </div>
-
-      {btnStatus && (
-        <Slide direction="up" in={btnStatus}>
-          <div className='cart'>
-            <Cart 
-              cartData={state.cartData} 
-              billData={state.billData}
-              handleSwipe={handleSwipe} 
+      <div className="body--main">
+        <header id="room__header">
+          <div id="room__header__container">
+            <h1>Room {roomId}</h1>
+            <Route
+              render={({ history }) => (
+                <CloseIcon
+                  onClick={() => {
+                    history.push('/main');
+                  }}
+                />
+              )}
             />
           </div>
-        </Slide>
-      )}
+          {isComplete() && (
+            <Fade in={isComplete()}>
+              <div className="redirectWrap" onClick={() => emitRedirect()}>
+                <ButtonRedirect route={`/room/${roomId}/summary`}>
+                  <div className="redirect__arrow">
+                    <ArrowForwardIcon />
+                  </div>
+                  <div className="redirect__text">Finalize</div>
+                </ButtonRedirect>
+              </div>
+            </Fade>
+          )}
+          {lengthLogic() && (
+            <Fade in={lengthLogic()}>
+              <h2>Please Select Item(s)</h2>
+            </Fade>
+          )}
+          {isCompleteNotHost() && (
+            <Fade in={isCompleteNotHost()}>
+              <h2>Waiting On Host</h2>
+            </Fade>
+          )}
+        </header>
 
-      {state.redirect && <Redirect to={`/room/${roomId}/summary`} />}
-    </div>
+        {!isNull(state.billData) ? (
+          <ItemList
+            itemsData={state.billData}
+            handleSwipe={handleSwipe}
+            cartData={state.cartData}
+          />
+        ) : (
+          <LoadingScreen />
+        )}
+
+        <div className="cart__button" onClick={() => toggleButtonStatus()}>
+          <div id="cart__button__text">
+            Selected Items {state.cartData.length}
+            <ShoppingBasketIcon />
+          </div>
+        </div>
+
+        {btnStatus && (
+          <Slide direction="up" in={btnStatus}>
+            <div className="cart">
+              <Cart
+                cartData={state.cartData}
+                billData={state.billData}
+                handleSwipe={handleSwipe}
+              />
+            </div>
+          </Slide>
+        )}
+
+        {state.redirect && <Redirect to={`/room/${roomId}/summary`} />}
+      </div>
     </>
   );
 };

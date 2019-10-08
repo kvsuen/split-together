@@ -37,6 +37,10 @@
   /* margin: 5vh 15vw; */
 }
 
+#input_container__body div {
+  font-family: 'Raleway', 'sans-serif';
+}
+
 .input_container__input {
   height: 6vh;
   text-align: center;
@@ -147,6 +151,7 @@
 
 #qrSwitch__switch {
   margin-top: 1vh;
+  font-family: 'Raleway', 'sans-serif';
 }
 
 .qrSwitch .MuiSwitch-thumb {

@@ -26,9 +26,13 @@
 
 .history__card__secondary_text {
   margin: 2px 5px;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 
 .history__cards .MuiAvatar-colorDefault {
   background-color: #808edf;
+}
+
+.history__card__secondary_text--price {
+  font-weight: bold;
 }

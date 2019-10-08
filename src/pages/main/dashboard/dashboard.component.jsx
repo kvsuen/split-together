@@ -16,7 +16,6 @@ const DashboardPage = ({ currentUser }) => {
       `${process.env.REACT_APP_API_SERVER_URL}/user/${currentUser.uid}/bills`
     )
       .then(resp => {
-        console.log(resp.data)
         setBillHistory(resp.data);
       })
       .catch(error => {

@@ -25,19 +25,12 @@ const RoomEntryPage = () => {
     inputFull: false
   });
 
-  const [rooms, setRooms] = useState([]);
   const [qrStatus, setStatus] = useState(false);
   
   const contentProps = useSpring({
     width: state.inputFull ? "80vw" : "0vw" ,
     borderTop: state.inputFull ? `red .1vh solid` : "#808edf .1vh solid"
   })
-
-  useEffect(() => {
-    Axios.get(`${process.env.REACT_APP_API_SERVER_URL}/rooms`)
-      .then(res => setRooms(res.data))
-      .catch(err => console.log(err))
-  },[])
 
   const qrScanner = () => {
     if (state.qrReaderStatus) {
@@ -101,11 +94,17 @@ const RoomEntryPage = () => {
 
   const validRoom = (history) => {
     const code = Number(document.getElementById('route-id').value);
-    if (rooms.includes(code)) {
-      history.push(`room/${state.text}`)
-    } else {
-      setState({...state, inputFull: true})
-    }
+
+    Axios.get(`${process.env.REACT_APP_API_SERVER_URL}/rooms`)
+      .then(res => {
+        if (res.data.includes(code)) {
+          history.push(`room/${state.text}`)
+        } else {
+          setState({...state, inputFull: true})
+        }
+      })
+      .catch(err => console.log(err))
+
   };
 
   const itemClass = classnames("code__input", {

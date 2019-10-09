@@ -12,9 +12,9 @@ import './homepage.style.css';
 const HomePage = () => {
   const { currentUser } = useContext(AuthContext);
 
-  // if (currentUser) {
-  //   return <Redirect to="/main" />;
-  // }
+  if (currentUser) {
+    return <Redirect to="/main" />;
+  }
 
   return (
     <div className={'home__background'}>
@@ -29,12 +29,12 @@ const HomePage = () => {
         >
           Sign up
         </ButtonRedirect>
-        <Button
+        {/* <Button
           className={'profile_header__signout'}
           onClick={() => firebase.auth().signOut()}
         >
           Sign out
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

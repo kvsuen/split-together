@@ -12,6 +12,7 @@ import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import Slide from '@material-ui/core/Slide';
 import Fade from '@material-ui/core/Fade';
 import CloseIcon from '@material-ui/icons/Close';
+import DoneIcon from '@material-ui/icons/Done';
 
 import Axios from 'axios';
 import io from 'socket.io-client';
@@ -204,7 +205,7 @@ const RoomPage = ({ currentUser }) => {
             <h1>Room {roomId}</h1>
             <Route
               render={({ history }) => (
-                <CloseIcon
+                <DoneIcon
                   onClick={() => {
                     history.push('/main');
                   }}

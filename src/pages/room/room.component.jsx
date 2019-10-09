@@ -205,7 +205,7 @@ const RoomPage = ({ currentUser }) => {
             <h1>Room {roomId}</h1>
             <Route
               render={({ history }) => (
-                <DoneIcon
+                <CloseIcon
                   onClick={() => {
                     history.push('/main');
                   }}
@@ -218,7 +218,7 @@ const RoomPage = ({ currentUser }) => {
               <div className="redirectWrap" onClick={() => emitRedirect()}>
                 <ButtonRedirect route={`/room/${roomId}/summary`}>
                   <div className="redirect__arrow">
-                    <ArrowForwardIcon />
+                    <DoneIcon />
                   </div>
                   <div className="redirect__text">Finalize</div>
                 </ButtonRedirect>

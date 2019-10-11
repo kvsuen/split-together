@@ -1,6 +1,8 @@
-# Split Awesome
+# Split Together
 
 Split Together easily splits receipts and settles the bill at the snap of the camera. Users take a picture of a receipt and the app then uses image recognition to present an interactive screen where everyone at the table can select their ordered item.
+
+!["AppFlow"](https://github.com/declan-wu/split-together/blob/master/public/split-together.gif)
 
 ## Contributors
 * [Kevin Suen](https://github.com/kvsuen)

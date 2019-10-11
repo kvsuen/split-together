@@ -9,7 +9,7 @@ Split Together easily splits receipts and settles the bill at the snap of the ca
 
 ## Final Product
 
-!["AppFlow"](https://github.com/declan-wu/split-together/blob/master/public/split-together.gif)
+!["AppFlow"](https://github.com/declan-wu/split-together/blob/master/public/split-together.gif | height=200)
 !["DashBoard"](https://github.com/declan-wu/split-together/blob/master/public/dash-board.gif)
 
 ## Getting Started

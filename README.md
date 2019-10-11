@@ -11,7 +11,7 @@ Split Together easily splits receipts and settles the bill at the snap of the ca
 
 <p align="center">
  <img width="350" alt="split-together" src="https://github.com/declan-wu/split-together/blob/master/public/split-together.gif">
- &nbsp
+ &nbsp  &nbsp  &nbsp  &nbsp
  <img width="350" alt="dash-board" src="https://github.com/declan-wu/split-together/blob/master/public/dash-board.gif">
 </p>
 

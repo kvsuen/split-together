@@ -10,11 +10,12 @@ Split Together easily splits receipts and settles the bill at the snap of the ca
 ## Final Product
 
 <p align="center">
- <img width="200" alt="split-together" src="https://github.com/declan-wu/split-together/blob/master/public/split-together.gif">
+ <img width="350" alt="split-together" src="https://github.com/declan-wu/split-together/blob/master/public/split-together.gif">
 </p>
 
-!["AppFlow"](https://github.com/declan-wu/split-together/blob/master/public/split-together.gif)
-!["DashBoard"](https://github.com/declan-wu/split-together/blob/master/public/dash-board.gif)
+<p align="center">
+ <img width="350" alt="dash-board" src="https://github.com/declan-wu/split-together/blob/master/public/dash-board.gif">
+</p>
 
 ## Getting Started
 Note: The [Split Together](https://github.com/kvsuen/split-together-api) API server will also need to be running concurrently.
